@@ -6,7 +6,7 @@ const Menucard = () => {
   fire.collection('Menu').get()
   .then((snap) => {    
     snap.forEach((item) => {
-      console.log(item.id)
+      console.log(item.data(), item.id)
     })
   })
 
