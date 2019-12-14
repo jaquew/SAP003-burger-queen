@@ -1,18 +1,19 @@
 import React from 'react';
-import fire from '../../utils/firebaseUtils'
+// import fire from '../../utils/firebaseUtils'
 import Menucard from '../../components/Menucard'
 
 const Hall = () => {
-  fire.collection('Menu').get()
-  .then((snap) => {
-    // console.log(snap.data());
-  })
 
   return (
-    <div>
-      <h2>Oiii</h2>
-      <Menucard />
-    </div>
+    <section className="hall-layout">
+      <div className="menu-box">
+       <Menucard />
+      </div>
+
+      <div className="order-box">
+        oi
+      </div>
+    </section>
   )
 }
 export default Hall
