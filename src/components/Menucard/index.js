@@ -14,18 +14,18 @@ const Menucard = () => {
         ...doc.data()
       }))
       setItems(newItems)
-      console.log(newItems);
       
     })
   },[])  
-
+  
   return (
-    items.map((item)=> 
-    <div className="btn-layout">
+    items.map((item)=> (
+      <div className="btn-layout">
       <Button className="menu-btn" title={item.name} id={item.id} handleclick={() => addOrder(item)}/>
       <label htmlFor={item.id}>{'R$ ' + item.price +',00'}</label>
-    </div>
-  )
+      {item.options.length !==0 && <p>{item.options.join(' ')}</p>}
+    </div> 
+  ))
   )
 }
 
