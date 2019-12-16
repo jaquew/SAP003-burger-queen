@@ -3,15 +3,50 @@ import Input from '../Input'
 import fire from '../../utils/firebaseUtils'
 import firebase from 'firebase';
 import Button from '../Button'
+import { StyleSheet, css } from 'aphrodite';
+
+const styles = StyleSheet.create({
+	orderbox:{
+		width: "50%"
+	},
+  updatebtn: {
+		height: "35px",
+		width: "35px",
+		padding: "5px",
+	},
+	placeorder:{
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "space-evenly",
+		margin: "5px 0"
+	},
+	placeitem: {
+		width: "33%",
+		// alignSelf: "center"
+	},
+	price: {
+		justifyContent: "flex-end",
+		display: "flex",
+		alignItems: "center"
+	},
+	total: {
+		marginRight: "10px",
+		fontSize: "1.4em"
+	},
+	sendbtn: {
+		backgroundColor: "#25B6D2",
+		color: "#fff",
+		borderRadius: "15px",
+		width: "100%",
+		margin: "5px auto",
+		height: "60px",
+		fontSize: "1.2em",
+	}
+})
 
 const Order = ({ orders, total, addOrder, setTotal, setOrders }) => {
 	const [clientName, setName] = useState('')
 	const [table, setTable] = useState(0)
-
-	useEffect(() => {
-		setOrders(orders)
-		setTotal(total)
-	}, [orders, total])
 	
 	const deleteItem = (item) => {
 		const index = (orders.indexOf(item));
@@ -39,7 +74,7 @@ const Order = ({ orders, total, addOrder, setTotal, setOrders }) => {
 					return (`(${order.count}) ${order.name} (${order.options}): ${order.extra}`)
 				} else if (order.options.length){
 					return `(${order.count}) ${order.name} (${order.options})`
-				}else {
+				} else {
 					return `(${order.count}) ${order.name} `
 				}
 			})
@@ -68,7 +103,7 @@ const Order = ({ orders, total, addOrder, setTotal, setOrders }) => {
   }
 
 	return(	
-		<div className="order-box">
+		<div className={css(styles.orderbox)}>
         <h2>Pedido</h2>
 
         <Input type="text" value={clientName} className="client-data" place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
@@ -77,19 +112,22 @@ const Order = ({ orders, total, addOrder, setTotal, setOrders }) => {
         
         <br/>
 			{orders.map((order) =>(
-				<p>
-					{order.name}  
-					<Button className="update-btn" title="-" handleclick={() => minusItem(order)}/>
-					{order.count}
-					<Button className="update-btn" title="+" handleclick={() => addOrder(order)}/>
-					<span>R${order.price},00
-						<Button className="delete-btn" title="X" handleclick={() => deleteItem(order)} />
-					</span>
-				</p>
+				<div className={css(styles.placeorder)}>
+					<span className={css(styles.placeitem)}>{order.name}</span>
+					<div className={css(styles.placeorder, styles.placeitem)}>  
+						<Input className={css(styles.updatebtn)} type="image" src="images/minus.png" handleclick={() => minusItem(order)}/>
+						<span>{order.count}</span>
+						<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => addOrder(order)}/>
+					</div>
+					<div className={css(styles.placeitem, styles.price)}>
+						<span>R${order.price},00</span>  
+						<Input className={css(styles.updatebtn)} type="image" src="images/remove.png" handleclick={() => deleteItem(order)} />
+					</div>
+				</div>
 						
 			))}
-			<p>Total: R${total},00</p>
-			<Button className="send-btn" title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
+			<p className={css(styles.price, styles.total)}>Total: R${total},00</p>
+			<Button className={css(styles.sendbtn)} title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
 		</div>
 	)
 }
