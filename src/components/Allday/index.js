@@ -82,8 +82,8 @@ const Allday = ({allday, addOrder}) => {
           <div className={css(styles.btnlayout)}>
             <Button className={css(styles.menubtn)} title={item.name} id={item.id} handleclick={() => setOpen(!open)}/>
             <label className={css(styles.btnlabel)} htmlFor={item.id}>{'R$ ' + item.price +',00'}</label>
-            {open && <p>ola</p>}
-          {/* <div className={css(styles.aditional)}>
+            {open && 
+           <div className={css(styles.aditional)}>
             <ul className={css(styles.list,styles.options)}>
               {item.options.map((op) => 
                 <li><Input type="radio" value={op} name="burger" />{op}</li>
@@ -95,7 +95,7 @@ const Allday = ({allday, addOrder}) => {
                 <li><Input type="radio" value={ex} name="extra" />{ex}</li>
                 )}
             </ul>
-          </div> */}
+          </div>}
 
         </div>
         
