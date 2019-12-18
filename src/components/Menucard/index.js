@@ -12,14 +12,15 @@ const styles = StyleSheet.create({
     padding: "20px"
   },
   menubox:{
-    width: "50%",
+    width: "60%",
     margin: "5px 30px"
   },
 })
 
 
 
-const Menucard = ({addOrder, items}) => {
+
+const Menucard = ({addOrder, items, setOption, hboption}) => {
 
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
@@ -28,7 +29,7 @@ const Menucard = ({addOrder, items}) => {
     <div className={css(styles.menubox)}>
       <h2>Menu</h2>
       <Breakfast breakfast={breakfast} addOrder={addOrder} />
-      <Allday allday={allday} addOrder={addOrder} />   
+      <Allday allday={allday} addOrder={addOrder} setOption={setOption} hboption={hboption} />   
     </div>
   )
 }

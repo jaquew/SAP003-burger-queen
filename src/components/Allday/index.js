@@ -45,37 +45,17 @@ const styles =  StyleSheet.create( {
   },
 
 })
-const Allday = ({allday, addOrder}) => {
+const Allday = ({allday, addOrder, setOption, hboption}) => {
   
   const [list, setList] = useState(" ")
   const [open, setOpen] = useState(false)
-  // let exibelista = "bla"
-  // const lista = (item) =>(
-    
-  //   setList(
-  //   <div className={css(styles.aditional)}>
-  //   <ul className={css(styles.list,styles.options)}>
-  //     {item.options.map((op) => 
-  //       <li><Input type="radio" value={op} name="burger" />{op}</li>
-  //     )}
-  //   </ul>
-
-  //   <ul className={css(styles.list, styles.extra)}>
-  //     {item.extra.map((ex) => 
-  //       <li><Input type="radio" value={ex} name="extra" />{ex}</li>
-  //       )}
-  //   </ul>
-  // </div>
-  //   )
-  // )
-
-  // const openList = () =>{
-  //   setList(!list)
-  //   exibelista = lista()
-  //   return <p>oi</p>
-  // }
-  // console.log(list);
+  console.log(hboption);
   
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setOption({...hboption,[e.target.name]: value});
+}
 
   return(
     <section>
@@ -91,7 +71,7 @@ const Allday = ({allday, addOrder}) => {
             <ul className={css(styles.list,styles.options)}> Opção:
               {item.options.map((op) => 
                 <li>
-                    <Input type="radio" value={op} name="burger" id={op + item.id}/>
+                    <Input type="radio" value={op} name="burger" id={op + item.id} onchange={(e) => handleChange(e)}/>
                   <label className={css(styles.label)} htmlFor={op + item.id}>{op}</label>
                 </li>              )}
             </ul>
@@ -99,11 +79,13 @@ const Allday = ({allday, addOrder}) => {
             <ul className={css(styles.list, styles.extra)}>Extra?
               {item.extra.map((ex) => 
                 <li>
-                    <Input type="radio" value={ex} name="extra" id={ex + item.id}/>
+                    <Input type="radio" value={ex} name="extra" id={ex + item.id} onchange={(e) => handleChange(e)}/>
                   <label htmlFor={ex + item.id}>{ex}</label>
                 </li>
                 )}
             </ul>
+            {/* <Button className={css(styles.opbtn)} title="ok" id={item.id} handleclick={() => onchange={(e) => setName(e.currentTarget.value)}}/> */}
+
           </div>}
 
         </div>
