@@ -7,7 +7,9 @@ import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
 orderbox:{
-width: "50%"
+width: "50%",
+margin: "5px 30px"
+
 },
 updatebtn: {
 height: "35px",
@@ -18,7 +20,8 @@ placeorder:{
 display: "flex",
 alignItems: "center",
 justifyContent: "space-evenly",
-margin: "5px 0"
+margin: "5px 0",
+fontSize: "1.2em"
 },
 placeitem: {
 width: "33%",

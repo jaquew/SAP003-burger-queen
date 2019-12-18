@@ -6,6 +6,7 @@ function Input(props) {
     type={props.type}
     onChange={props.onchange} 
     name={props.name}
+    id= {props.id}
     className={props.className} 
     value={props.value}
     src={props.src}

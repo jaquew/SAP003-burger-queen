@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 
 import Breakfast from '../Breakfast'
 import Allday from '../Allday'
-import Button from '../Button';
+// import Button from '../Button';
 
 
 const styles = StyleSheet.create({
@@ -12,34 +12,9 @@ const styles = StyleSheet.create({
     padding: "20px"
   },
   menubox:{
-    width: "50%"
-  },
-  btnlayout: {
-    display:"flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap",
-    minHeight: "70px"
-  },
-  menubtn: {
-    backgroundColor: "#fff",
-    fontFamily: "Arial",
     width: "50%",
-    height: "50px",
-    border: "1px solid #c44",
-    borderRadius: "15px",
-    ':active': {
-      backgroundColor: "#25B6D2",
-      color: "#fff"
-    },
+    margin: "5px 30px"
   },
-  btnlabel: {
-    width: "20%",
-    textAlign: "right"
-  },
-  extras: {
-    width: "60%"
-  }
 })
 
 

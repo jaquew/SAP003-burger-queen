@@ -13,9 +13,10 @@ const styles =  StyleSheet.create( {
   menubtn: {
     backgroundColor: "#fff",
     fontFamily: "Arial",
+    fontSize: "1.2em",
     width: "60%",
     height: "50px",
-    border: "1px solid #c44",
+    border: "1px solid #25B6D2",
     borderRadius: "15px",
     ':active': {
       backgroundColor: "#25B6D2",
