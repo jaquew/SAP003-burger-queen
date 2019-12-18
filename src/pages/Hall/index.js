@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import fire from '../../utils/firebaseUtils'
-// import Menucard from '../../components/Menucard'
-import Button from '../../components/Button'
-import Input from '../../components/Input'
-import Order from '../../components/Order'
 import { StyleSheet, css } from 'aphrodite';
+
+import Order from '../../components/Order'
+import Menucard from '../../components/Menucard'
 
 const styles = StyleSheet.create({
   halllayout: {
@@ -46,11 +45,6 @@ const Hall = () => {
   const [items, setItems] = useState([])
   const [orders, setOrders] = useState([])
   const [total, setTotal] = useState(0)
-
-	// useEffect(() => {
-	// 	setOrders(orders)
-	// 	setTotal(total)
-	// }, [ orders, total])
     
   const addOrder = (item) => {
     if(!orders.includes(item)){
@@ -58,7 +52,7 @@ const Hall = () => {
       setOrders([...orders, item])
 
     } else {
-      item.count += 1
+      item.count++
       setOrders([...orders])
     }
     setTotal(total + (item.price));
@@ -74,67 +68,18 @@ const Hall = () => {
       setItems(newItems)
       
     })
-  },[])                                           
+  },[])
   console.log(items);
+                                             
   
   return (
     <section className={css(styles.halllayout)}>
-      {/* <Header /> */}
 
+      <Menucard addOrder={addOrder} items={items} />
       
-      <div className={css(styles.menubox)}>
-        <h2>Menu</h2>
-        <h3>Café da manhã</h3>
-        {items.map((item)=> {
-          if (item.bf===true) {
-            return (
-              <div className={css(styles.btnlayout)}>
-                <Button className={css(styles.menubtn)} title={item.name} id={item.id} handleclick={() => addOrder(item)}/>
-
-                <label className={css(styles.btnlabel)} htmlFor={item.id}>{'R$ ' + item.price +',00'}</label>
-              </div>
-            )
-          }
-        })}
-
-        <h3>Almoço e Jantar</h3>
-        {items.map((item)=> {
-          if (item.bf===false) {
-            return (
-              <div className={css(styles.btnlayout)}>
-
-                <Button className={css(styles.menubtn)} title={item.name} id={item.id} handleclick={() => addOrder(item)}/>
-
-                  <label className={css(styles.btnlabel)} htmlFor={item.id}>{'R$ ' + item.price +',00'}</label>
-                  
-                  {/* <div className={css(styles.extras)}>
-                    {item.options.map((op) => {
-                      return (
-                        <span>{op}
-                        <Input type="radio" value={op} name="burger" />
-                        </span>
-                      )
-                    })}
-                    {item.extra.map((ex) => {
-                      return (
-                        <span>{ex}
-                        <Input type="radio" value={ex} name="extra" />
-                        </span>
-                      )
-                    })}
-                  </div> */}
-              </div>  
-            )
-          }
-        })}
-            
-        </div>
-
-        <Order orders={orders} total={total} addOrder={addOrder} setTotal={setTotal} setOrders={setOrders}/>
+      <Order orders={orders} total={total} addOrder={addOrder} setTotal={setTotal} setOrders={setOrders}/>
     </section>
   )
 }
-
-
 
 export default Hall

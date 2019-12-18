@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Input from '../Input'
 import fire from '../../utils/firebaseUtils'
 import firebase from 'firebase';
@@ -104,7 +104,8 @@ const Order = ({ orders, total, addOrder, setTotal, setOrders }) => {
 
 	return(	
 		<div className={css(styles.orderbox)}>
-        <h2>Pedido</h2>
+        <h2>Pedido de {clientName}</h2>
+				<h3>Mesa {table}</h3>
 
         <Input type="text" value={clientName} className="client-data" place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
 

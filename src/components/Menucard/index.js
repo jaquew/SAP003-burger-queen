@@ -1,31 +1,60 @@
-import React,{useState, useEffect} from 'react'
-import fire from '../../utils/firebaseUtils'
-import Button from '../Button'
+import React from 'react'
+import { StyleSheet, css } from 'aphrodite';
 
-const Menucard = () => {
-  const addOrder = (item) => (console.log(item.name, item.price))
+import Breakfast from '../Breakfast'
+import Allday from '../Allday'
+import Button from '../Button';
 
-  const [items, setItems] = useState([])
-  useEffect(() => {
-    fire.collection('Menu').get()
-    .then((snap) => {
-      const newItems = snap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setItems(newItems)
-      
-    })
-  },[])  
+
+const styles = StyleSheet.create({
+  halllayout: {
+    display:"flex",
+    padding: "20px"
+  },
+  menubox:{
+    width: "50%"
+  },
+  btnlayout: {
+    display:"flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+    minHeight: "70px"
+  },
+  menubtn: {
+    backgroundColor: "#fff",
+    fontFamily: "Arial",
+    width: "50%",
+    height: "50px",
+    border: "1px solid #c44",
+    borderRadius: "15px",
+    ':active': {
+      backgroundColor: "#25B6D2",
+      color: "#fff"
+    },
+  },
+  btnlabel: {
+    width: "20%",
+    textAlign: "right"
+  },
+  extras: {
+    width: "60%"
+  }
+})
+
+
+
+const Menucard = ({addOrder, items}) => {
+
+  const breakfast = items.filter(item => item.bf===true)
+  const allday = items.filter(item => item.bf===false)
   
   return (
-    items.map((item)=> (
-      <div className="btn-layout">
-      <Button className="menu-btn" title={item.name} id={item.id} handleclick={() => addOrder(item)}/>
-      <label htmlFor={item.id}>{'R$ ' + item.price +',00'}</label>
-      {item.options.length !==0 && <p>{item.options.join(' ')}</p>}
-    </div> 
-  ))
+    <div className={css(styles.menubox)}>
+      <h2>Menu</h2>
+      <Breakfast breakfast={breakfast} addOrder={addOrder} />
+      <Allday allday={allday} addOrder={addOrder} />   
+    </div>
   )
 }
 
