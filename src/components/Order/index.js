@@ -74,7 +74,7 @@ const sendOrder = (orders) => {
 if (orders.length && table) {
 	const product = orders.map((order) => {
 		if (order.extra){
-			return (`(${order.count}) ${order.name} (${order.options}): ${order.extra}`)
+			return (`(${order.count}) ${order.name}: (${order.hboption.burger}). Extra: ${order.hboption.extra}`)
 		} else {
 			return `(${order.count}) ${order.name} `
 		}

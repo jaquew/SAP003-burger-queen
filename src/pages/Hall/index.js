@@ -45,14 +45,19 @@ const Hall = () => {
   const [items, setItems] = useState([])
   const [orders, setOrders] = useState([])
   const [total, setTotal] = useState(0)
-  const [hboption, setOption] = useState ([null, null])
+  const [hboption, setOption] = useState ({})
 
     
   const addOrder = (item) => {
     // const index = (orders.indexOf(item));
-    // console.log(index);    
+    // console.log(index);     
     if(!orders.includes(item)){
       item.count = 1;
+      if (item.options){
+        item.hboption = hboption
+        console.log(item.hboption);
+        
+      }
       setOrders([...orders, item])      
     } else {
       item.count++ 
@@ -60,6 +65,7 @@ const Hall = () => {
     }
     setTotal(total + (item.price));
   }
+  console.log(items);
 
   useEffect(() => {
     fire.collection('Menu').get()
@@ -73,13 +79,11 @@ const Hall = () => {
       
     })
   },[])                                            
-  
-  console.log(hboption);
-  
+    
   return (
     <section className={css(styles.halllayout)}>
 
-      <Menucard addOrder={addOrder} items={items} setOption={setOption} />
+      <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} />
       
       <Order orders={orders} total={total} addOrder={addOrder} setTotal={setTotal} setOrders={setOrders} hboption={hboption}/>
     </section>
