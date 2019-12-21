@@ -1,12 +1,9 @@
 import React, {useState} from 'react'
 import { StyleSheet, css } from 'aphrodite';
 
-// import Breakfast from '../Breakfast'
-// import Allday from '../Allday'
 import Button from '../Button';
 import Input from '../Input'
-
-
+import './index.css';
 
 const styles = StyleSheet.create({
   halllayout: {
@@ -56,7 +53,6 @@ const styles = StyleSheet.create({
   },
   list: {
     listStyle: "none",
-    // textAlign: "center",
     padding: "10px",
     display: "flex",
     margin: "0"
@@ -83,11 +79,7 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
   return (
     <div className={css(styles.menubox)}>
       <h2>Menu</h2>
-      {/* <Breakfast breakfast={breakfast} addOrder={addOrder} /> */}
-      {/* <Allday allday={allday} addOrder={addOrder} setOption={setOption} hboption={hboption} />   */}
-
       <h3>Café da manhã</h3>
-
       <div className={css(styles.btnBox)}>
 
         {breakfast.map((item)=> (
