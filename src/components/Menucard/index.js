@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   },
   btnlayout: {
     display:"flex",
+    flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
     flexWrap: "wrap",
@@ -68,32 +69,35 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
   const [open, setOpen] = useState(false)
+  const [menu, setMenu] = useState([])
   
 
   const handleChange = (e) => {
     const value = e.target.value;
     setOption({...hboption,[e.target.name]: value});
   }
-  console.log(hboption);
   
   return (
     <div className={css(styles.menubox)}>
       <h2>Menu</h2>
       <h3>Café da manhã</h3>
-      <div className={css(styles.btnBox)}>
+      {/* <div className={css(styles.btnBox)}> */}
+        <Button className={css(styles.label)}  title="cafe" handleclick ={() => setMenu([...breakfast])}  />
+        <Button className={css(styles.label)}  title="dia" handleclick ={() => setMenu([...allday])}  />/
 
-        {breakfast.map((item)=> (
+{/* 
+        {menu.map((item)=> (
           <div className={css(styles.btnlayout)}>
-            <Button className={css(styles.menubtn)} title={`Hithi '\n' is a test message`} id={item.id} handleclick={() => addOrder(item)}/>
-            <label className={css(styles.btnlabel)} htmlFor={item.id}>{'R$ ' + item.price +',00'}</label>
+            <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => addOrder(item)} />
+            <label className={css(styles.btnlabel)} htmlFor={item.id}>{'R$ ' + item.price +',00'}</label> 
           </div>
         ))}
       </div>
 
 
 
-      <h3>Almoço e Jantar</h3>
-      {allday.map((item)=> (
+      <h3>Almoço e Jantar</h3> */}
+      {menu.map((item)=> (
         <div>
         {item.options ? 
           <div className={css(styles.btnlayout)}>

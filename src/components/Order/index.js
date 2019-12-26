@@ -87,6 +87,7 @@ if (orders.length && table) {
 		
 		time: firebase.firestore.FieldValue.serverTimestamp(),
 		total: total,
+		ready: false,
 	}
 
 	fire.collection('Pedidos').add(clientOrder)
