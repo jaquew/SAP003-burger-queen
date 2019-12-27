@@ -84,10 +84,10 @@ if (orders.length && table) {
 		name: clientName,
 		table: table,
 		product,
-		
 		time: firebase.firestore.FieldValue.serverTimestamp(),
 		total: total,
 		ready: false,
+		status: "Pronto",
 	}
 
 	fire.collection('Pedidos').add(clientOrder)

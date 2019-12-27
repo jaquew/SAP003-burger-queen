@@ -5,71 +5,14 @@ import Button from '../Button';
 import Input from '../Input'
 import './index.css';
 
-const styles = StyleSheet.create({
-  halllayout: {
-    display:"flex",
-    padding: "20px"
-  },
-  menubox:{
-    width: "60%",
-    margin: "5px 30px"
-  },
-  btnlayout: {
-    display:"flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
-    flexWrap: "wrap",
-    minHeight: "70px",
-    width: "50%",
-    flexWrap: "wrap"
-  },
-  btn: {
-    width: "100%"
-  },
-  menubtn: {
-    backgroundColor: "#fff",
-    fontFamily: "Arial",
-    width: "60%",
-    height: "50px",
-    border: "1px solid #25B6D2",
-    borderRadius: "15px",
-    ':active': {
-      backgroundColor: "#25B6D2",
-      color: "#fff"
-    },
-  },
-  btnBox: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  btnlabel: {
-    maxWidth: "35%",
-    textAlign: "right"
-  },
-  aditional: {
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column"
-  },
-  list: {
-    listStyle: "none",
-    padding: "10px",
-    display: "flex",
-    margin: "0"
-  },
-
-})
-
-
-
-
 const Menucard = ({addOrder, items, setOption, hboption}) => {
-
+  
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
   const [open, setOpen] = useState(false)
   const [menu, setMenu] = useState([])
+  console.log(menu);
+  
   
 
   const handleChange = (e) => {
@@ -83,7 +26,7 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
       <h3>Café da manhã</h3>
       {/* <div className={css(styles.btnBox)}> */}
         <Button className={css(styles.label)}  title="cafe" handleclick ={() => setMenu([...breakfast])}  />
-        <Button className={css(styles.label)}  title="dia" handleclick ={() => setMenu([...allday])}  />/
+        <Button className={css(styles.label)}  title="dia" handleclick ={() => setMenu([...allday])}  />
 
 {/* 
         {menu.map((item)=> (
@@ -139,5 +82,60 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
     </div>
   )
 }
+
+const styles = StyleSheet.create({
+  halllayout: {
+    display:"flex",
+    padding: "20px"
+  },
+  menubox:{
+    width: "60%",
+    margin: "5px 30px"
+  },
+  btnlayout: {
+    display:"flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexWrap: "wrap",
+    minHeight: "70px",
+    width: "50%",
+    flexWrap: "wrap"
+  },
+  btn: {
+    width: "100%"
+  },
+  menubtn: {
+    backgroundColor: "#fff",
+    fontFamily: "Arial",
+    width: "60%",
+    height: "50px",
+    border: "1px solid #25B6D2",
+    borderRadius: "15px",
+    ':active': {
+      backgroundColor: "#25B6D2",
+      color: "#fff"
+    },
+  },
+  btnBox: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  btnlabel: {
+    maxWidth: "35%",
+    textAlign: "right"
+  },
+  aditional: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column"
+  },
+  list: {
+    listStyle: "none",
+    padding: "10px",
+    display: "flex",
+    margin: "0"
+  },
+})
 
 export default Menucard

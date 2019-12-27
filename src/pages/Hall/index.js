@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import fire from '../../utils/firebaseUtils'
 import { StyleSheet, css } from 'aphrodite';
 
+import fire from '../../utils/firebaseUtils'
 import Order from '../../components/Order'
 import Menucard from '../../components/Menucard'
 
