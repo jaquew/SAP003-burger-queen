@@ -7,7 +7,7 @@ import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
 orderbox:{
-width: "50%",
+width: "40%",
 margin: "5px 30px"
 
 },
@@ -73,10 +73,8 @@ if (item.count === 1){
 const sendOrder = (orders) => {
 if (orders.length && table) {
 	const product = orders.map((order) => {
-		if (order.extra.length){
-			return (`(${order.count}) ${order.name} (${order.options}): ${order.extra}`)
-		} else if (order.options.length){
-			return `(${order.count}) ${order.name} (${order.options})`
+		if (order.extra){
+			return (`(${order.count}) ${order.name}: (${order.hboption.burger}). Extra: ${order.hboption.extra}`)
 		} else {
 			return `(${order.count}) ${order.name} `
 		}
@@ -86,9 +84,10 @@ if (orders.length && table) {
 		name: clientName,
 		table: table,
 		product,
-		
 		time: firebase.firestore.FieldValue.serverTimestamp(),
 		total: total,
+		ready: false,
+		status: "Pronto",
 	}
 
 	fire.collection('Pedidos').add(clientOrder)
@@ -118,11 +117,15 @@ return(
 	{orders.map((order) =>(
 		<div className={css(styles.placeorder)}>
 			<span className={css(styles.placeitem)}>{order.name}</span>
+
 			<div className={css(styles.placeorder, styles.placeitem)}>  
 				<Input className={css(styles.updatebtn)} type="image" src="images/minus.png" handleclick={() => minusItem(order)}/>
+
 				<span>{order.count}</span>
+
 				<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => addOrder(order)}/>
 			</div>
+
 			<div className={css(styles.placeitem, styles.price)}>
 				<span>R${order.price},00</span>  
 				<Input className={css(styles.updatebtn)} type="image" src="images/remove.png" handleclick={() => deleteItem(order)} />
