@@ -56,7 +56,6 @@ const Hall = () => {
       if (item.options){
         item.hboption = hboption
         console.log(item.hboption);
-        
       }
       setOrders([...orders, item])      
     } else {

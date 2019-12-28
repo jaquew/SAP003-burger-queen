@@ -21,7 +21,7 @@ function Kitchen(){
 
   useEffect(() => {
     fire.collection('Historico')
-    .orderBy('time', 'asc')
+    .orderBy('time', 'desc')
     .onSnapshot((snap) => {
       const done = snap.docs.map((doc) => ({
         id: doc.id,
@@ -36,24 +36,21 @@ function Kitchen(){
   const orderReady = (order) => {    
     if (order.status==="Confirmar"){
       order.ready = true;
-
-      fire.collection('Historico').add(order)
-      fire.collection('Pedidos').doc(order.id)
-      .delete()
-      .then(() => {
-        console.log("Document successfully deleted!");
-        })
-        .catch(function(error) {
-          console.error("Error removing document: ", error);
-        });
-
+      const endTime = new Date()
+      const readyTime = new Date(endTime - order.time.toDate()).toISOString().substr(14,5)
+      const readyOrder = {...order, readyTime}
+      
+      fire.collection('Historico').add(readyOrder)
+      fire.collection('Pedidos').doc(order.id).delete()
+    
     } else {
       order.status = "Confirmar"
     }
     setOrders([...orders]) //usar o spread para criar um outro array, assim forçando a renderização da pag
   }
-  console.log(orders);
 
+  console.log(orders);
+  
 
   return (
     <div>
@@ -78,7 +75,9 @@ function Kitchen(){
       <h3>Histórico</h3>
       {orderDone.map((done) => (
         <div className={css(styles.doneList)}>
-          <p>Mesa: {done.table}. {done.name}</p>{done.product.map((item) => (
+          <p>Mesa: {done.table}. {done.name}</p>
+          <p>Tempo de preparo: {done.readyTime}</p>
+          {done.product.map((item) => (
             <ul>
               <li>{item}</li>
             </ul>
