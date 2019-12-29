@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
-import Button from './components/Button'
+// import Button from './components/Button'
 import Hall from './pages/Hall'
 import Kitchen from './pages/Kitchen'
 

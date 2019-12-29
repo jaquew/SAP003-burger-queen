@@ -21,65 +21,48 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
   }
   
   return (
-    <div className={css(styles.menubox)}>
+    <section className={css(styles.menubox)}>
       <h2>Menu</h2>
-      <h3>Café da manhã</h3>
-      {/* <div className={css(styles.btnBox)}> */}
         <Button className={css(styles.label)}  title="cafe" handleclick ={() => setMenu([...breakfast])}  />
         <Button className={css(styles.label)}  title="dia" handleclick ={() => setMenu([...allday])}  />
-
-{/* 
-        {menu.map((item)=> (
-          <div className={css(styles.btnlayout)}>
-            <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => addOrder(item)} />
-            <label className={css(styles.btnlabel)} htmlFor={item.id}>{'R$ ' + item.price +',00'}</label> 
-          </div>
-        ))}
-      </div>
-
-
-
-      <h3>Almoço e Jantar</h3> */}
+      <div className={css(styles.btnBox)}>
       {menu.map((item)=> (
-        <div>
-        {item.options ? 
-          <div className={css(styles.btnlayout)}>
-            <Button className={css(styles.menubtn)} title={item.name} id={item.id} handleclick={() => setOpen(!open)}/>
-            <label className={css(styles.btnlabel)} htmlFor={item.id}>{'R$ ' + item.price +',00'}</label>
-            {open && 
-           <div className={css(styles.aditional)}>
-            <ul className={css(styles.list,styles.options)}> Opção:
-              {item.options.map((op) => 
-                <li>
-                  <Input type="radio" value={op} name="burger" id={op + item.id} onchange={(e) => handleChange(e)}/>
-                  <label className={css(styles.label)} htmlFor={op + item.id}>{op}</label>
-                </li>             
-              )}
-            </ul>
-
-            <ul className={css(styles.list, styles.extra)}>Extra?
-              {item.extra.map((ex) => 
-                <li>
-                    <Input type="radio" value={ex} name="extra" id={ex + item.id} onchange={(e) => handleChange(e)}/>
-                  <label htmlFor={ex + item.id}>{ex}</label>
-                </li>
-                )}
-            </ul>
-            <Button className={css(styles.menubtn)} title="Adicionar" handleclick={() => addOrder(item)}/>
-
-          </div>}
-
-        </div>
-        
-        :
         <div className={css(styles.btnlayout)}>
-          <Button className={css(styles.menubtn)} title={item.name} id={item.id} handleclick={() => addOrder(item)}/>
-          <label className={css(styles.btnlabel)} htmlFor={item.id}>{'R$ ' + item.price +',00'}</label>
-        </div>
-        }
+          {item.options ? 
+            <>
+              <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => setOpen(!open)} />
+              {open &&
+                <div className={css(styles.aditional)}>
+                  <ul className={css(styles.list,styles.options)}>
+                    {/* <p>Opção:</p> */}
+                    {item.options.map((op) => 
+                      <li>
+                        <Input type="radio" value={op} name="burger" id={op + item.id} onchange={(e) => handleChange(e)}/>
+                        <label className={css(styles.label)} htmlFor={op + item.id}>{op}</label>
+                      </li>             
+                    )}
+                  </ul>
+
+                  <ul className={css(styles.list, styles.extra)}>
+                    {/* Extra? */}
+                    {item.extra.map((ex) => 
+                      <li>
+                        <Input type="radio" value={ex} name="extra" id={ex + item.id} onchange={(e) => handleChange(e)}/>
+                        <label htmlFor={ex + item.id}>{ex}</label>
+                      </li>
+                      )}
+                  </ul>
+                  <Button className={css(styles.opbtn)} title="Adicionar" handleclick={() => addOrder(item)}/>
+                </div>
+              }
+            </>
+          :
+            <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => addOrder(item)} />
+          }
       </div>  
-    ))}
+      ))}
     </div>
+    </section>
   )
 }
 
@@ -89,8 +72,9 @@ const styles = StyleSheet.create({
     padding: "20px"
   },
   menubox:{
-    width: "60%",
-    margin: "5px 30px"
+    width: "50%",
+    margin: "5px",
+    marginLeft: "10px"
   },
   btnlayout: {
     display:"flex",
@@ -99,17 +83,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
     minHeight: "70px",
-    width: "50%",
-    flexWrap: "wrap"
+    width: "45%",
   },
   btn: {
     width: "100%"
   },
   menubtn: {
+    backgroundColor: "#2c2c2c",
+    fontFamily: "Arial",
+    width: "100%",
+    height: "55px",
+    whiteSpace: "normal",
+    color: "#fff",
+    border: "1px solid #25B6D2",
+    borderRadius: "15px",
+    ':active': {
+      backgroundColor: "#25B6D2",
+    },
+  },
+  opbtn: {
     backgroundColor: "#fff",
     fontFamily: "Arial",
-    width: "60%",
-    height: "50px",
+    width: "100%",
+    height: "20px",
     border: "1px solid #25B6D2",
     borderRadius: "15px",
     ':active': {
@@ -119,7 +115,8 @@ const styles = StyleSheet.create({
   },
   btnBox: {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    justifyContent: "space-evenly"
   },
   btnlabel: {
     maxWidth: "35%",
@@ -134,7 +131,8 @@ const styles = StyleSheet.create({
     listStyle: "none",
     padding: "10px",
     display: "flex",
-    margin: "0"
+    margin: "0",
+    fontSize: "0.7em"
   },
 })
 
