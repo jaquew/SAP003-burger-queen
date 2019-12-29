@@ -64,8 +64,7 @@ const Hall = () => {
     }
     setTotal(total + (item.price));
   }
-  console.log(items);
-
+  
   useEffect(() => {
     fire.collection('Menu').get()
     .then((snap) => {
