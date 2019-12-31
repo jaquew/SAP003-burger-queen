@@ -37,8 +37,9 @@ function Kitchen(){
   const orderReady = (order) => {    
     if (order.status==="Confirmar"){
       order.ready = true;
-      const endTime = new Date()
-      const readyTime = new Date(endTime - order.time.toDate()).toISOString().substr(14,5)
+      const endTime = new Date()      
+      const readyTime = new Date(endTime - order.time.toDate()).toISOString().substr(11,8)
+      
       const readyOrder = {...order, readyTime, delivered: false}
       
       fire.collection('Historico').add(readyOrder)
@@ -56,17 +57,17 @@ function Kitchen(){
 
 
 
-  const timer = (time) => {
-    return setInterval( () => {
-      const minutes = new Date(Date.now() - time.toDate()).toISOString().substr(14,5);
-      console.log(minutes);
-      // setOrders([...orders])
-      return minutes
+  // const timer = (time) => {
+  //   return setInterval( () => {
+  //     const minutes = new Date(Date.now() - time.toDate()).toISOString().substr(14,5);
+  //     console.log(minutes);
+  //     // setOrders([...orders])
+  //     return minutes
       
-    }, 5000)
-  }
+  //   }, 5000)
+  // }
 
-  console.log(orders);
+  // console.log(orders);
   
 
   return (
@@ -76,13 +77,12 @@ function Kitchen(){
         {orders.map((order)=> (
           <>
             {order.ready===false &&
-            <div key={order.id}>
+            <div key={order.id}>Histórico
             <p>Mesa: {order.table}. {order.name}          <Button title={order.status} handleclick={() => orderReady(order)} /></p>
-            {console.log(order.time.toDate())}
             {order.time.toDate().toLocaleTimeString("pt-BR")}
             {/* {timer(order.time)} */}
             {order.product.map((item) => (
-              <ul>
+              <ul key={item+order.id}>
                 <li>{item}</li>
               </ul>
               ))}
@@ -97,9 +97,10 @@ function Kitchen(){
         {orderDone.slice(0, history).map( (done) => (
           <div className={css(styles.doneList)}>
             <p>Mesa: {done.table}. {done.name}</p>
+            {console.log(done.readyTime)}
             <p>Tempo de preparo: {done.readyTime}</p>
             {done.product.map((item) => (
-              <ul>
+              <ul key={item+done.id}>
                 <li>{item}</li>
               </ul>
             ))}

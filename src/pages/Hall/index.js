@@ -48,9 +48,7 @@ const Hall = () => {
   const [hboption, setOption] = useState ({})
 
     
-  const addOrder = (item) => {
-    // const index = (orders.indexOf(item));
-    // console.log(index);     
+  const addOrder = (item) => {    
     if(!orders.includes(item)){
       item.count = 1;
       if (item.options){

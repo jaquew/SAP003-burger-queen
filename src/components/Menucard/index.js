@@ -27,14 +27,13 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
         <Button className={css(styles.label)}  title="dia" handleclick ={() => setMenu([...allday])}  />
       <div className={css(styles.btnBox)}>
       {menu.map((item)=> (
-        <div className={css(styles.btnlayout)}>
+        <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
             <>
               <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => setOpen(!open)} />
               {open &&
                 <div className={css(styles.aditional)}>
                   <ul className={css(styles.list,styles.options)}>
-                    {/* <p>Opção:</p> */}
                     {item.options.map((op) => 
                       <li>
                         <Input type="radio" value={op} name="burger" id={op + item.id} onchange={(e) => handleChange(e)}/>
@@ -44,7 +43,6 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
                   </ul>
 
                   <ul className={css(styles.list, styles.extra)}>
-                    {/* Extra? */}
                     {item.extra.map((ex) => 
                       <li>
                         <Input type="radio" value={ex} name="extra" id={ex + item.id} onchange={(e) => handleChange(e)}/>
