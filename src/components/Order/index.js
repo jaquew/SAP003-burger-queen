@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
+import growl from 'growl-alert'
+import 'growl-alert/dist/growl-alert.css'
+import { StyleSheet, css } from 'aphrodite';
+import firebase from 'firebase';
+
 import Input from '../Input'
 import fire from '../../utils/firebaseUtils'
-import firebase from 'firebase';
 import Button from '../Button'
-import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
 orderbox:{
@@ -11,6 +14,12 @@ width: "45%",
 margin: "5px",
 marginRight: "15px"
 
+},
+clientData: {
+	display: "flex",
+	justifyContent: "center",
+	flexDirection: "column",
+	alignItems: "center"
 },
 updatebtn: {
 height: "30px",
@@ -95,26 +104,27 @@ if (orders.length && table) {
 	setTotal(0)
 	setName('');
 	setTable(0);
+	growl.success({text: 'Pedido Enviado', fadeAway: true, fadeAwayTimeout: 2500});
 } else if (!orders.length) {
-	alert('Coloque pelo menos 1 item no pedido!')
+	growl.warning({text:'Coloque pelo menos 1 item no pedido!', fadeAway: true, fadeAwayTimeout: 2500})
 	
 } else {
-	alert('Preencha o número da mesa!')
+	growl.warning({text:'Preencha o número da mesa!',fadeAway: true, fadeAwayTimeout: 2500})
 
 }
 }
 
 return(	
-<div className={css(styles.orderbox)}>
+<section className={css(styles.orderbox)}>
 		<h2>Pedido de {clientName}</h2>
-		<h3>Mesa {table}</h3>
 
-		<Input type="text" value={clientName} className="client-data" place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
+		<form className={css(styles.clientData)}>
+			<h3>Mesa {table}</h3>
+			<Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
+			<Input type="number" value={table} place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/>
+		</form>
 
-		<Input type="number" value={table} className="client-data" place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/>
-		
-		<br/>
-	{orders.map((order) =>(
+		{orders.map((order) =>(
 		<div className={css(styles.placeorder)}>
 			<span className={css(styles.placeitem)}>{order.name}</span>
 
@@ -135,7 +145,7 @@ return(
 	))}
 	<p className={css(styles.price, styles.total)}>Total: R${total},00</p>
 	<Button className={css(styles.sendbtn)} title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
-</div>
+</section>
 )
 }
 
