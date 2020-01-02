@@ -46,13 +46,17 @@ marginRight: "10px",
 fontSize: "1.4em"
 },
 sendbtn: {
-backgroundColor: "#25B6D2",
+backgroundColor: "#2c2c2c",
 color: "#fff",
 borderRadius: "15px",
 width: "100%",
 margin: "5px auto",
 height: "60px",
 fontSize: "1.2em",
+border: "1px solid #25B6D2",
+':active': {
+  backgroundColor: "#25B6D2",
+},
 }
 })
 
