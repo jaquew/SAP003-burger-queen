@@ -4,16 +4,12 @@ import Hall from './pages/Hall'
 import Kitchen from './pages/Kitchen'
 import { StyleSheet, css } from 'aphrodite';
 
-//grow-alert biblioteca github
-
-
 function App() {
   return (
     <div>
       <header className={css(styles.header)}>
         <a href="/" className={css(styles.back)}>Voltar</a>
-        <h2>Burguer Queen</h2>
-        <a href="/" className={css(styles.back)}>Sair</a>
+        <h2 className={css(styles.logo)}>Burguer Queen</h2>
       </header>
       <Router>
         <Switch>
@@ -37,11 +33,22 @@ function App() {
 const styles = StyleSheet.create({
   header: {
     display: "flex",
-    justifyContent: "space-between",
-    height:"80px"
+    height:"80px",
+    alignItems: "center"
   },
   back:{
-
+    textAlign: "center",
+    width: "10%",
+    padding: "10px 5px",
+    color: "#fff",
+    textDecoration: "none",
+    ':active': {
+      backgroundColor: "#25B6D2",
+    },
+  },
+  logo: {
+    width: "60%",
+    // margin: "auto",
   },
 
   main: {

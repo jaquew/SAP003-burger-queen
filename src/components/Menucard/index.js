@@ -11,9 +11,6 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
   const allday = items.filter(item => item.bf===false)
   const [open, setOpen] = useState(false)
   const [menu, setMenu] = useState([])
-  console.log(menu);
-  
-  
 
   const handleChange = (e) => {
     const value = e.target.value;
