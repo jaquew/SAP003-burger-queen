@@ -129,7 +129,7 @@ return(
 		</form>
 
 		{orders.map((order) =>(
-		<div className={css(styles.placeorder)}>
+		<div key={order.id} className={css(styles.placeorder)}>
 			<span className={css(styles.placeitem)}>{order.name}</span>
 
 			<div className={css(styles.placeorder, styles.placeitem)}>  

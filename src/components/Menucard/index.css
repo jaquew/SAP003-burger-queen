@@ -12,6 +12,7 @@ input[type=radio] + label {
     display:inline-block;
     margin: 2px;
     padding: 2px 4px;
+    height: 20px;
     /* background-color: #ffffff; */
     border: 1px solid #25B6D2;
     border-radius: 0.5em;

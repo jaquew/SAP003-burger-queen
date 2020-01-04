@@ -12,22 +12,40 @@ const Hall = () => {
   const [items, setItems] = useState([])
   const [orders, setOrders] = useState([])
   const [total, setTotal] = useState(0)
-  const [hboption, setOption] = useState ({})
+  const [hboption, setOption] = useState ('')
+  const [extra, setExtra] = useState('')
+  const [open, setOpen] = useState(false)
 
     
-  const addOrder = (item) => {    
-    if(!orders.includes(item)){
-      item.count = 1;
-      if (item.options){
-        item.hboption = hboption
-        console.log(item.hboption);
-      }
-      setOrders([...orders, item])      
-    } else {
-      item.count++ 
+  const addOrder = (item) => {
+    let orderToAdd = JSON.parse(JSON.stringify(item));
+    if (item.options){
+      orderToAdd.hboption = hboption
+      orderToAdd.hbextra = extra
+      // item.hboption = hboption
+    }
+    console.log(orderToAdd);
+    console.log(item);
+    console.log(orders.includes(orderToAdd));
+    
+    // if(orders.includes(orderToAdd.hboption)) {
+    //   console.log('1o if');
+    //   orderToAdd.count++ 
+    //   setOrders([...orders])
+
+    // } else 
+    if (!orders.includes(orderToAdd) ) {
+      console.log('2o if');
+      orderToAdd.count = 1;
+      setOrders([...orders, orderToAdd])
+    } else{
+      console.log('3o if');
+      orderToAdd.count++ 
       setOrders([...orders])
     }
     setTotal(total + (item.price));
+    setOption({})
+    setOpen(false)
   }
   
   useEffect(() => {
@@ -53,8 +71,8 @@ const Hall = () => {
 
     <Panel>
       <section className={css(styles.halllayout)}>
-        <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} />
-        <Order orders={orders} total={total} addOrder={addOrder} setTotal={setTotal} setOrders={setOrders} hboption={hboption}/>
+        <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} />
+        <Order orders={orders} total={total} addOrder={addOrder} setTotal={setTotal} setOrders={setOrders} hboption={hboption} extra={extra} />
       </section>
     </Panel>
     <Panel>

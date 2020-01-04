@@ -5,16 +5,16 @@ import Button from '../Button';
 import Input from '../Input'
 import './index.css';
 
-const Menucard = ({addOrder, items, setOption, hboption}) => {
+const Menucard = ({addOrder, items, setOption, setExtra, open, setOpen}) => {
   
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
-  const [open, setOpen] = useState(false)
   const [menu, setMenu] = useState([])
+  // const [open, setOpen] = useState(false)
 
   const handleChange = (e) => {
-    const value = e.target.value;
-    setOption({...hboption,[e.target.name]: value});
+    const value = e.target.value;    
+    e.target.name === 'extra' ? setExtra(value) : setOption(value);
   }
   
   return (
@@ -31,8 +31,9 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
               {open &&
                 <div className={css(styles.aditional)}>
                   <ul className={css(styles.list,styles.options)}>
+                    Tipo
                     {item.options.map((op) => 
-                      <li>
+                      <li key={op + item.id}>
                         <Input type="radio" value={op} name="burger" id={op + item.id} onchange={(e) => handleChange(e)}/>
                         <label className={css(styles.label)} htmlFor={op + item.id}>{op}</label>
                       </li>             
@@ -40,8 +41,9 @@ const Menucard = ({addOrder, items, setOption, hboption}) => {
                   </ul>
 
                   <ul className={css(styles.list, styles.extra)}>
+                    Extra
                     {item.extra.map((ex) => 
-                      <li>
+                      <li key={ex + item.id}>
                         <Input type="radio" value={ex} name="extra" id={ex + item.id} onchange={(e) => handleChange(e)}/>
                         <label htmlFor={ex + item.id}>{ex}</label>
                       </li>
@@ -97,10 +99,11 @@ const styles = StyleSheet.create({
     },
   },
   opbtn: {
-    backgroundColor: "#fff",
+    backgroundColor: "#2c2c2c",
+    color: "#fff",
     fontFamily: "Arial",
     width: "100%",
-    height: "20px",
+    height: "30px",
     border: "1px solid #25B6D2",
     borderRadius: "15px",
     ':active': {
@@ -124,8 +127,10 @@ const styles = StyleSheet.create({
   },
   list: {
     listStyle: "none",
-    padding: "10px",
+    padding: "5px",
     display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
     margin: "0",
     fontSize: "0.7em"
   },
