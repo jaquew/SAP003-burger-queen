@@ -46,8 +46,8 @@ marginRight: "10px",
 fontSize: "1.4em"
 },
 sendbtn: {
-backgroundColor: "#2c2c2c",
 color: "#fff",
+backgroundColor: "Transparent",
 borderRadius: "15px",
 width: "100%",
 margin: "5px auto",

@@ -7,10 +7,16 @@ import './index.css';
 
 const Menucard = ({addOrder, items, setOption, hboption}) => {
   
+  const [menu, setMenu] = useState([])  
+  const [open, setOpen] = useState(false)
+
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
-  const [open, setOpen] = useState(false)
-  const [menu, setMenu] = useState([])
+  console.log(breakfast);
+  console.log(items);
+  
+  
+  
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -84,7 +90,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   menubtn: {
-    backgroundColor: "#2c2c2c",
+    backgroundColor: "Transparent",
     fontFamily: "Arial",
     width: "100%",
     height: "55px",

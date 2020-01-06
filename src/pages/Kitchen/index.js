@@ -97,7 +97,6 @@ function Kitchen(){
         {orderDone.slice(0, history).map( (done) => (
           <div className={css(styles.doneList)}>
             <p>Mesa: {done.table}. {done.name}</p>
-            {console.log(done.readyTime)}
             <p>Tempo de preparo: {done.readyTime}</p>
             {done.product.map((item) => (
               <ul key={item+done.id}>
@@ -117,6 +116,9 @@ const styles = StyleSheet.create({
   kitchenLayout: {
     display: "flex",
     justifyContent: "space-evenly",
+  },
+  orderBox: {
+    width: "60%"
   },
   doneList: {
     fontSize: "0.8em"

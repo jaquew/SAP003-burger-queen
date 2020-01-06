@@ -9,7 +9,10 @@ function App() {
     <div>
       <header className={css(styles.header)}>
         <a href="/" className={css(styles.back)}>Voltar</a>
-        <h2 className={css(styles.logo)}>Burguer Queen</h2>
+        {/* <h2 className={css(styles.logo)}>Burguer Queen</h2> */}
+        <img src="images/logo.png"/>
+        <a href="/" className={css(styles.logout)}>Sair</a>
+
       </header>
       <Router>
         <Switch>
@@ -34,10 +37,11 @@ const styles = StyleSheet.create({
   header: {
     display: "flex",
     height:"80px",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "space-between"
   },
-  back:{
-    textAlign: "center",
+  back :{
+    textAlign: "right",
     width: "10%",
     padding: "10px 5px",
     color: "#fff",
@@ -46,8 +50,16 @@ const styles = StyleSheet.create({
       backgroundColor: "#25B6D2",
     },
   },
+  logout: {
+    width: "10%",
+    padding: "10px 5px",
+    color: "#fff",
+    textDecoration: "none",
+
+  },
   logo: {
     width: "60%",
+    textAlign: "center"
     // margin: "auto",
   },
 
@@ -61,7 +73,6 @@ const styles = StyleSheet.create({
   link: {
     display: "inline-block",
     padding: "5px",
-    backgroundColor: "#2c2c2c",
     fontFamily: "Arial",
     width: "30%",
     height: "55px",
