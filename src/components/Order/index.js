@@ -8,57 +8,6 @@ import Input from '../Input'
 import fire from '../../utils/firebaseUtils'
 import Button from '../Button'
 
-const styles = StyleSheet.create({
-orderbox:{
-width: "45%",
-margin: "5px",
-marginRight: "15px"
-
-},
-clientData: {
-	display: "flex",
-	justifyContent: "center",
-	flexDirection: "column",
-	alignItems: "center"
-},
-updatebtn: {
-height: "30px",
-width: "30px",
-padding: "5px",
-},
-placeorder:{
-display: "flex",
-alignItems: "center",
-justifyContent: "space-evenly",
-margin: "5px 0",
-},
-placeitem: {
-width: "33%",
-// alignSelf: "center"
-},
-price: {
-justifyContent: "flex-end",
-display: "flex",
-alignItems: "center"
-},
-total: {
-marginRight: "10px",
-fontSize: "1.4em"
-},
-sendbtn: {
-backgroundColor: "#2c2c2c",
-color: "#fff",
-borderRadius: "15px",
-width: "100%",
-margin: "5px auto",
-height: "60px",
-fontSize: "1.2em",
-border: "1px solid #25B6D2",
-':active': {
-  backgroundColor: "#25B6D2",
-},
-}
-})
 
 const Order = ({ orders, total, addOrder, setTotal, setOrders }) => {
 const [clientName, setName] = useState('')
@@ -151,6 +100,59 @@ return(
 	<Button className={css(styles.sendbtn)} title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
 </section>
 )
+
 }
 
+const styles = StyleSheet.create({
+	orderbox:{
+	width: "45%",
+	margin: "5px",
+	marginRight: "15px"
+	
+	},
+	clientData: {
+		display: "flex",
+		justifyContent: "center",
+		flexDirection: "column",
+		alignItems: "center"
+	},
+	updatebtn: {
+	height: "30px",
+	width: "30px",
+	padding: "5px",
+	},
+	placeorder:{
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "space-evenly",
+	margin: "5px 0",
+	},
+	placeitem: {
+	width: "33%",
+	// alignSelf: "center"
+	},
+	price: {
+	justifyContent: "flex-end",
+	display: "flex",
+	alignItems: "center"
+	},
+	total: {
+	marginRight: "10px",
+	fontSize: "1.4em"
+	},
+	sendbtn: {
+	backgroundColor: "#2c2c2c",
+	color: "#fff",
+	borderRadius: "15px",
+	width: "100%",
+	margin: "5px auto",
+	height: "60px",
+	fontSize: "1.2em",
+	border: "1px solid #25B6D2",
+	':active': {
+		backgroundColor: "#25B6D2",
+	},
+	}
+	})
+	
 export default Order

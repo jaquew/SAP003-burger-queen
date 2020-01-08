@@ -18,15 +18,14 @@ const Hall = () => {
 
     
   const addOrder = (item) => {
-    let orderToAdd = JSON.parse(JSON.stringify(item));
+    // let orderToAdd = JSON.parse(JSON.stringify(item));
     if (item.options){
-      orderToAdd.hboption = hboption
-      orderToAdd.hbextra = extra
+      item.hboption = hboption
+      item.hbextra = extra
       // item.hboption = hboption
     }
-    console.log(orderToAdd);
     console.log(item);
-    console.log(orders.includes(orderToAdd));
+    // console.log(orders.includes(orderToAdd));
     
     // if(orders.includes(orderToAdd.hboption)) {
     //   console.log('1o if');
@@ -34,13 +33,13 @@ const Hall = () => {
     //   setOrders([...orders])
 
     // } else 
-    if (!orders.includes(orderToAdd) ) {
+    if (!orders.includes(item) ) {
       console.log('2o if');
-      orderToAdd.count = 1;
-      setOrders([...orders, orderToAdd])
+      item.count = 1;
+      setOrders([...orders, item])
     } else{
       console.log('3o if');
-      orderToAdd.count++ 
+      item.count++ 
       setOrders([...orders])
     }
     setTotal(total + (item.price));
