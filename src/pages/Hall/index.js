@@ -13,38 +13,43 @@ const Hall = () => {
   const [orders, setOrders] = useState([])
   const [total, setTotal] = useState(0)
   const [hboption, setOption] = useState ('')
-  const [extra, setExtra] = useState('')
+  const [hbextra, setExtra] = useState('')
   const [open, setOpen] = useState(false)
-
+  
     
   const addOrder = (item) => {
-    // let orderToAdd = JSON.parse(JSON.stringify(item));
+    let index
     if (item.options){
       item.hboption = hboption
-      item.hbextra = extra
-      // item.hboption = hboption
+      item.hbextra = hbextra
+      index = orders.findIndex((i) => i.hboption === hboption && i.hbextra === hbextra)
+    } else {
+      index = orders.findIndex((i) => i.id === item.id)
     }
-    console.log(item);
-    // console.log(orders.includes(orderToAdd));
+    console.log(index);
     
-    // if(orders.includes(orderToAdd.hboption)) {
-    //   console.log('1o if');
-    //   orderToAdd.count++ 
-    //   setOrders([...orders])
 
-    // } else 
-    if (!orders.includes(item) ) {
-      console.log('2o if');
+    console.log(item);
+    if (item)
+
+    if (!orders.some(i => i.id === item.id)) {
+      console.log('1o if');
       item.count = 1;
-      setOrders([...orders, item])
+      setOrders([...orders, {...item}])
     } else{
-      console.log('3o if');
-      item.count++ 
+      console.log('2o if');
+      item.count++
       setOrders([...orders])
     }
     setTotal(total + (item.price));
     setOption({})
     setOpen(false)
+  }
+
+  const plusItem = (item) =>{
+    item.count++
+    setOrders([...orders])
+    setTotal(total + (item.price));
   }
   
   useEffect(() => {
@@ -71,7 +76,7 @@ const Hall = () => {
     <Panel>
       <section className={css(styles.halllayout)}>
         <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} />
-        <Order orders={orders} total={total} addOrder={addOrder} setTotal={setTotal} setOrders={setOrders} hboption={hboption} extra={extra} />
+        <Order orders={orders} total={total} plusItem={plusItem} setTotal={setTotal} setOrders={setOrders} hboption={hboption} hbextra={hbextra} />
       </section>
     </Panel>
     <Panel>

@@ -9,7 +9,7 @@ import fire from '../../utils/firebaseUtils'
 import Button from '../Button'
 
 
-const Order = ({ orders, total, addOrder, setTotal, setOrders }) => {
+const Order = ({ orders, total, plusItem, setTotal, setOrders }) => {
 const [clientName, setName] = useState('')
 const [table, setTable] = useState(0)
 
@@ -35,8 +35,8 @@ if (item.count === 1){
 const sendOrder = (orders) => {
 if (orders.length && table) {
 	const product = orders.map((order) => {
-		if (order.extra){
-			return (`(${order.count}) ${order.name}: ${order.hboption.burger}. Extra: ${order.hboption.extra}`)
+		if (order.hbextra){
+			return (`(${order.count}) ${order.name}: ${order.hboption}. Extra: ${order.hbextra}`)
 		} else {
 			return `(${order.count}) ${order.name} `
 		}
@@ -86,7 +86,7 @@ return(
 
 				<span>{order.count}</span>
 
-				<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => addOrder(order)}/>
+				<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => plusItem(order)}/>
 			</div>
 
 			<div className={css(styles.placeitem, styles.price)}>
