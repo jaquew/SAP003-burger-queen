@@ -22,23 +22,17 @@ const Hall = () => {
     if (item.options){
       item.hboption = hboption
       item.hbextra = hbextra
-      index = orders.findIndex((i) => i.hboption === hboption && i.hbextra === hbextra)
+      index = orders.findIndex((i) => i.id === item.id && i.hboption === hboption && i.hbextra === hbextra)
     } else {
       index = orders.findIndex((i) => i.id === item.id)
-    }
-    console.log(index);
-    
-
-    console.log(item);
-    if (item)
-
-    if (!orders.some(i => i.id === item.id)) {
+    }    
+    if (index === -1) {
       console.log('1o if');
       item.count = 1;
       setOrders([...orders, {...item}])
     } else{
       console.log('2o if');
-      item.count++
+      orders[index].count++
       setOrders([...orders])
     }
     setTotal(total + (item.price));

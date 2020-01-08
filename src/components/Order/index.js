@@ -69,19 +69,22 @@ if (orders.length && table) {
 
 return(	
 <section className={css(styles.orderbox)}>
-		<h2>Pedido de {clientName}</h2>
+		<h3>Pedido de {clientName}</h3>
 
 		<form className={css(styles.clientData)}>
-			<h3>Mesa {table}</h3>
+			<p>Mesa {table}</p>
 			<Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
 			<Input type="number" value={table} place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/>
 		</form>
 
 		{orders.map((order) =>(
 		<div key={order.id} className={css(styles.placeorder)}>
-			<span className={css(styles.placeitem)}>{order.name}</span>
+			<div className={css(styles.ordername)}>
+				<p>{order.name}</p>
+				{order.hboption && <p>{order.hboption}, {order.hbextra}</p>}
+			</div>
 
-			<div className={css(styles.placeorder, styles.placeitem)}>  
+			<div className={css(styles.control)}>  
 				<Input className={css(styles.updatebtn)} type="image" src="images/minus.png" handleclick={() => minusItem(order)}/>
 
 				<span>{order.count}</span>
@@ -89,7 +92,7 @@ return(
 				<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => plusItem(order)}/>
 			</div>
 
-			<div className={css(styles.placeitem, styles.price)}>
+			<div className={css(styles.price)}>
 				<span>R${order.price},00</span>  
 				<Input className={css(styles.updatebtn)} type="image" src="images/remove.png" handleclick={() => deleteItem(order)} />
 			</div>
@@ -123,18 +126,23 @@ const styles = StyleSheet.create({
 	},
 	placeorder:{
 	display: "flex",
+	flexWrap: "wrap",
 	alignItems: "center",
 	justifyContent: "space-evenly",
 	margin: "5px 0",
 	},
-	placeitem: {
-	width: "33%",
-	// alignSelf: "center"
+	ordername: {
+	width: "100%",
+	textAlign: "center"
 	},
 	price: {
 	justifyContent: "flex-end",
 	display: "flex",
-	alignItems: "center"
+	alignItems: "center",
+	width: "30%"
+	},
+	control:{
+		width: "30%"
 	},
 	total: {
 	marginRight: "10px",
