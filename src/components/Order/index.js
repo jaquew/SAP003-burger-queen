@@ -17,7 +17,7 @@ const deleteItem = (item) => {
 const index = (orders.indexOf(item));
 orders.splice(index, 1)
 setOrders([...orders]);
-const deleteTotal = total - (item.price * item.count)
+const deleteTotal = total - (item.orderPrice * item.count)
 setTotal(deleteTotal)
 }
 
@@ -27,7 +27,7 @@ if (item.count === 1){
 } else {			
 	item.count -= 1
 	setOrders([...orders]);
-	const minusTotal = total  - item.price
+	const minusTotal = total  - item.orderPrice
 	setTotal(minusTotal)
 }
 }
@@ -93,7 +93,7 @@ return(
 			</div>
 
 			<div className={css(styles.price)}>
-				<span>R${order.price},00</span>  
+				<span>R${order.orderPrice * order.count},00</span>  
 				<Input className={css(styles.updatebtn)} type="image" src="images/remove.png" handleclick={() => deleteItem(order)} />
 			</div>
 		</div>

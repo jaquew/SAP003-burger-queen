@@ -19,23 +19,31 @@ const Hall = () => {
     
   const addOrder = (item) => {
     let index
+    let orderPrice
     if (item.options){
       item.hboption = hboption
-      item.hbextra = hbextra
+      item.hbextra = hbextra;
       index = orders.findIndex((i) => i.id === item.id && i.hboption === hboption && i.hbextra === hbextra)
     } else {
       index = orders.findIndex((i) => i.id === item.id)
-    }    
+    }
+    
+    orderPrice = (item.hbextra && item.hbextra !== 'Nenhum') ?  item.price + 1 : item.price
+
     if (index === -1) {
-      console.log('1o if');
       item.count = 1;
-      setOrders([...orders, {...item}])
+
+      setOrders([...orders, {...item, orderPrice}])
     } else{
-      console.log('2o if');
       orders[index].count++
+      orders[index].orderPrice = orderPrice
       setOrders([...orders])
     }
-    setTotal(total + (item.price));
+    console.log(orderPrice);
+    console.log(item.hbextra == true && item.hbextra !== 'Nenhum');
+      
+    
+    setTotal(total + orderPrice);
     setOption({})
     setOpen(false)
   }
@@ -43,7 +51,7 @@ const Hall = () => {
   const plusItem = (item) =>{
     item.count++
     setOrders([...orders])
-    setTotal(total + (item.price));
+    setTotal(total + (item.orderPrice));
   }
   
   useEffect(() => {
