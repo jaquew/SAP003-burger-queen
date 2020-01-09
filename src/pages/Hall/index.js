@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Tabs, Tab, Panel } from '@bumaga/tabs' 
 // import { Tabs, useTabState, usePanelState } from "@bumaga/tabs";
+import growl from 'growl-alert'
+import 'growl-alert/dist/growl-alert.css'
 
 import fire from '../../utils/firebaseUtils'
 import Order from '../../components/Order'
@@ -36,6 +38,7 @@ const Hall = () => {
     item.count++
     setOrders([...orders])
     setTotal(total + (item.price));
+    
   }
   
   useEffect(() => {
@@ -50,6 +53,19 @@ const Hall = () => {
     })
   },[])
   
+
+	useEffect(() => {
+		fire.collection('Historico')
+    .orderBy('time', 'desc')
+    .onSnapshot((snap) => {
+      const orders = snap.docs.map((doc) => ({
+        id: doc.id,
+        count: 0,
+        ...doc.data()
+      }))
+      setDoneOrders(orders);
+    })
+  },[])
     
   return (
     <Tabs>
@@ -65,7 +81,7 @@ const Hall = () => {
       </section>
     </Panel>
     <Panel>
-      <DoneOrders />
+      <DoneOrders doneOrders={doneOrders} setDoneOrders={setDoneOrders} />
     </Panel>
   </Tabs>
   )
