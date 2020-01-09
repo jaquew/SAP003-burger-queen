@@ -8,59 +8,8 @@ import Input from '../Input'
 import fire from '../../utils/firebaseUtils'
 import Button from '../Button'
 
-const styles = StyleSheet.create({
-orderbox:{
-width: "45%",
-margin: "5px",
-marginRight: "15px"
 
-},
-clientData: {
-	display: "flex",
-	justifyContent: "center",
-	flexDirection: "column",
-	alignItems: "center"
-},
-updatebtn: {
-height: "30px",
-width: "30px",
-padding: "5px",
-},
-placeorder:{
-display: "flex",
-alignItems: "center",
-justifyContent: "space-evenly",
-margin: "5px 0",
-},
-placeitem: {
-width: "33%",
-// alignSelf: "center"
-},
-price: {
-justifyContent: "flex-end",
-display: "flex",
-alignItems: "center"
-},
-total: {
-marginRight: "10px",
-fontSize: "1.4em"
-},
-sendbtn: {
-color: "#fff",
-backgroundColor: "Transparent",
-borderRadius: "15px",
-width: "100%",
-margin: "5px auto",
-height: "60px",
-fontSize: "1.2em",
-border: "1px solid #25B6D2",
-':active': {
-  backgroundColor: "#25B6D2",
-},
-}
-})
-
-const Order = ({ orders, total, addOrder, setTotal, setOrders }) => {
+const Order = ({ orders, total, plusItem, setTotal, setOrders }) => {
 const [clientName, setName] = useState('')
 const [table, setTable] = useState(0)
 
@@ -85,13 +34,7 @@ if (item.count === 1){
 
 const sendOrder = (orders) => {
 if (orders.length && table) {
-	const product = orders.map((order) => {
-		if (order.extra){
-			return (`(${order.count}) ${order.name}: ${order.hboption.burger}. Extra: ${order.hboption.extra}`)
-		} else {
-			return `(${order.count}) ${order.name} `
-		}
-	})
+	const product = orders.map((order) => `(${order.count}) ${order.name} `)
 
 	const clientOrder = {
 		name: clientName,
@@ -120,28 +63,31 @@ if (orders.length && table) {
 
 return(	
 <section className={css(styles.orderbox)}>
-		<h2>Pedido de {clientName}</h2>
+		<h3>Pedido de {clientName}</h3>
 
 		<form className={css(styles.clientData)}>
-			<h3>Mesa {table}</h3>
+			<p>Mesa {table}</p>
 			<Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
 			<Input type="number" value={table} place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/>
 		</form>
 
 		{orders.map((order) =>(
-		<div className={css(styles.placeorder)}>
-			<span className={css(styles.placeitem)}>{order.name}</span>
+		<div key={order.id} className={css(styles.placeorder)}>
+			<div className={css(styles.ordername)}>
+				<p>{order.name}</p>
+				{order.hboption && <p>{order.hboption}, {order.hbextra}</p>}
+			</div>
 
-			<div className={css(styles.placeorder, styles.placeitem)}>  
+			<div className={css(styles.control)}>  
 				<Input className={css(styles.updatebtn)} type="image" src="images/minus.png" handleclick={() => minusItem(order)}/>
 
 				<span>{order.count}</span>
 
-				<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => addOrder(order)}/>
+				<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => plusItem(order)}/>
 			</div>
 
-			<div className={css(styles.placeitem, styles.price)}>
-				<span>R${order.price},00</span>  
+			<div className={css(styles.price)}>
+				<span>R${order.price * order.count},00</span>  
 				<Input className={css(styles.updatebtn)} type="image" src="images/remove.png" handleclick={() => deleteItem(order)} />
 			</div>
 		</div>
@@ -151,6 +97,64 @@ return(
 	<Button className={css(styles.sendbtn)} title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
 </section>
 )
+
 }
 
+const styles = StyleSheet.create({
+	orderbox:{
+	width: "45%",
+	margin: "5px",
+	marginRight: "15px"
+	
+	},
+	clientData: {
+		display: "flex",
+		justifyContent: "center",
+		flexDirection: "column",
+		alignItems: "center"
+	},
+	updatebtn: {
+	height: "30px",
+	width: "30px",
+	padding: "5px",
+	},
+	placeorder:{
+	display: "flex",
+	flexWrap: "wrap",
+	alignItems: "center",
+	justifyContent: "space-evenly",
+	margin: "5px 0",
+	},
+	ordername: {
+	width: "100%",
+	textAlign: "center"
+	},
+	price: {
+	justifyContent: "flex-end",
+	display: "flex",
+	alignItems: "center",
+	width: "30%"
+	},
+	control:{
+		width: "30%"
+	},
+	total: {
+	marginRight: "10px",
+	fontSize: "1.4em"
+	},
+	sendbtn: {
+	backgroundColor: "#2c2c2c",
+	color: "#fff",
+	borderRadius: "15px",
+	width: "100%",
+	margin: "5px auto",
+	height: "60px",
+	fontSize: "1.2em",
+	border: "1px solid #25B6D2",
+	':active': {
+		backgroundColor: "#25B6D2",
+	},
+	}
+	})
+	
 export default Order

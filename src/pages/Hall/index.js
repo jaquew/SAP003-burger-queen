@@ -14,21 +14,30 @@ const Hall = () => {
   const [items, setItems] = useState([])
   const [orders, setOrders] = useState([])
   const [total, setTotal] = useState(0)
-  const [hboption, setOption] = useState ({})
-  const [doneOrders,setDoneOrders] = useState([])
+  const [hboption, setOption] = useState ('')
+  const [hbextra, setExtra] = useState('')
+  const [open, setOpen] = useState(false)
+  const [doneOrders, setDoneOrders] = useState([])
+  
     
-  const addOrder = (item) => {    
-    if(!orders.includes(item)){
+  const addOrder = (item) => {
+    const index = orders.findIndex((i) => i.name === item.name)    
+
+    if (index === -1) {
       item.count = 1;
-      if (item.options){
-        item.hboption = hboption
-        console.log(item.hboption);
-      }
-      setOrders([...orders, item])      
-    } else {
-      item.count++ 
-      setOrders([...orders])
+      setOrders([...orders, {...item}])
+    } else{
+      plusItem(orders[index])
     }
+    setTotal(total + item.price);
+    setOption('')
+    setExtra('')
+    setOpen(false)
+  }
+
+  const plusItem = (item) =>{
+    item.count++
+    setOrders([...orders])
     setTotal(total + (item.price));
     
   }
@@ -42,23 +51,26 @@ const Hall = () => {
         ...doc.data()
       }))
       setItems(newItems)
-
     })
   },[])
   
 
 	useEffect(() => {
 		fire.collection('Historico')
-    .orderBy('time', 'desc')
+    .orderBy('time', 'asc')
     .onSnapshot((snap) => {
       const orders = snap.docs.map((doc) => ({
-        id: doc.id,
-        count: 0,
+        id2: doc.id,
         ...doc.data()
       }))
+      console.log(orders);      
+      
       setDoneOrders(orders);
     })
   },[])
+
+
+  
     
   return (
     <Tabs>
@@ -69,8 +81,8 @@ const Hall = () => {
 
     <Panel>
       <section className={css(styles.halllayout)}>
-        <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} />
-        <Order orders={orders} total={total} addOrder={addOrder} setTotal={setTotal} setOrders={setOrders} hboption={hboption}/>
+        <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} hbextra={hbextra} />
+        <Order orders={orders} total={total} plusItem={plusItem} setTotal={setTotal} setOrders={setOrders} hboption={hboption} hbextra={hbextra} />
       </section>
     </Panel>
     <Panel>

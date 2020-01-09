@@ -55,21 +55,6 @@ function Kitchen(){
     setHistory(history => history + 3)
   }
 
-
-
-  // const timer = (time) => {
-  //   return setInterval( () => {
-  //     const minutes = new Date(Date.now() - time.toDate()).toISOString().substr(14,5);
-  //     console.log(minutes);
-  //     // setOrders([...orders])
-  //     return minutes
-      
-  //   }, 5000)
-  // }
-
-  // console.log(orders);
-  
-
   return (
     <section className={css(styles.kitchenLayout)}>
       <div className={css(styles.orderBox)}>
@@ -78,7 +63,7 @@ function Kitchen(){
           <>
             {order.ready===false &&
             <div key={order.id}>Histórico
-            <p>Mesa: {order.table}. {order.name}          <Button title={order.status} handleclick={() => orderReady(order)} /></p>
+            <p>Mesa: {order.table}. {order.name} <Button title={order.status} handleclick={() => orderReady(order)} /></p>
             {order.time.toDate().toLocaleTimeString("pt-BR")}
             {/* {timer(order.time)} */}
             {order.product.map((item) => (
