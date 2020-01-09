@@ -18,40 +18,24 @@ const Hall = () => {
   
     
   const addOrder = (item) => {
-    let index
-    let orderPrice
-    if (item.options){
-      item.hboption = hboption
-      item.hbextra = hbextra;
-      index = orders.findIndex((i) => i.id === item.id && i.hboption === hboption && i.hbextra === hbextra)
-    } else {
-      index = orders.findIndex((i) => i.id === item.id)
-    }
-    
-    orderPrice = (item.hbextra && item.hbextra !== 'Nenhum') ?  item.price + 1 : item.price
+    const index = orders.findIndex((i) => i.name === item.name)    
 
     if (index === -1) {
       item.count = 1;
-
-      setOrders([...orders, {...item, orderPrice}])
+      setOrders([...orders, {...item}])
     } else{
-      orders[index].count++
-      orders[index].orderPrice = orderPrice
-      setOrders([...orders])
+      plusItem(orders[index])
     }
-    console.log(orderPrice);
-    console.log(item.hbextra == true && item.hbextra !== 'Nenhum');
-      
-    
-    setTotal(total + orderPrice);
-    setOption({})
+    setTotal(total + item.price);
+    setOption('')
+    setExtra('')
     setOpen(false)
   }
 
   const plusItem = (item) =>{
     item.count++
     setOrders([...orders])
-    setTotal(total + (item.orderPrice));
+    setTotal(total + (item.price));
   }
   
   useEffect(() => {
@@ -63,7 +47,6 @@ const Hall = () => {
         ...doc.data()
       }))
       setItems(newItems)
-      
     })
   },[])
   
@@ -77,7 +60,7 @@ const Hall = () => {
 
     <Panel>
       <section className={css(styles.halllayout)}>
-        <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} />
+        <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} hbextra={hbextra} />
         <Order orders={orders} total={total} plusItem={plusItem} setTotal={setTotal} setOrders={setOrders} hboption={hboption} hbextra={hbextra} />
       </section>
     </Panel>

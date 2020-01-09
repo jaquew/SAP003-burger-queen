@@ -1,27 +1,39 @@
 import React, {useState} from 'react'
 import { StyleSheet, css } from 'aphrodite';
+import growl from 'growl-alert'
+import 'growl-alert/dist/growl-alert.css'
 
 import Button from '../Button';
 import Input from '../Input'
-import './index.css';
+import Options from '../Options'
 
-const Menucard = ({addOrder, items, setOption, setExtra, open, setOpen}) => {
+const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen}) => {
   
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
   const [menu, setMenu] = useState([])
-  // const [open, setOpen] = useState(false)
 
   const handleChange = (e) => {
-    const value = e.target.value;    
-    e.target.name === 'extra' ? setExtra(value) : setOption(value);
+    const value = e.target.value;
+    e.target.name === 'Extra' ? setExtra(value) : setOption(value);
   }
+
+  const addOption = (item) =>{
+    if (hboption) {
+      const orderPrice = hbextra !== 'Nenhum' ? item.price + 1 : item.price    
+      const updateItem = {...item, name: `${item.name} de ${hboption} com ${hbextra}`, price: orderPrice}
+      addOrder(updateItem)
+    } else {
+      growl.warning({text:'Coloque a opção do hamburguer',fadeAway: true, fadeAwayTimeout: 2000})
+    }
+  }
+
   
   return (
     <section className={css(styles.menubox)}>
       <h2>Menu</h2>
-        <Button className={css(styles.label)}  title="cafe" handleclick ={() => setMenu([...breakfast])}  />
-        <Button className={css(styles.label)}  title="dia" handleclick ={() => setMenu([...allday])}  />
+        <Button className={css(styles.menuTab)}  title="cafe" handleclick ={() => setMenu([...breakfast])}  />
+        <Button className={css(styles.menuTab)}  title="dia" handleclick ={() => setMenu([...allday])}  />
       <div className={css(styles.btnBox)}>
       {menu.map((item)=> (
         <div key={item.id} className={css(styles.btnlayout)}>
@@ -30,26 +42,10 @@ const Menucard = ({addOrder, items, setOption, setExtra, open, setOpen}) => {
               <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => setOpen(!open)} />
               {open &&
                 <div className={css(styles.aditional)}>
-                  <ul className={css(styles.list,styles.options)}>
-                    Tipo
-                    {item.options.map((op) => 
-                      <li key={op + item.id}>
-                        <Input type="radio" value={op} name="burger" id={op + item.id} onchange={(e) => handleChange(e)}/>
-                        <label className={css(styles.label)} htmlFor={op + item.id}>{op}</label>
-                      </li>             
-                    )}
-                  </ul>
+                  <Options array={item.options} name='Opções' item={item} handleChange={handleChange}/>
+                  <Options array={item.extra} name='Extra' item={item} handleChange={handleChange}/>
 
-                  <ul className={css(styles.list, styles.extra)}>
-                    Extra
-                    {item.extra.map((ex) => 
-                      <li key={ex + item.id}>
-                        <Input type="radio" value={ex} name="extra" id={ex + item.id} onchange={(e) => handleChange(e)}/>
-                        <label htmlFor={ex + item.id}>{ex}</label>
-                      </li>
-                      )}
-                  </ul>
-                  <Button className={css(styles.opbtn)} title="Adicionar" handleclick={() => addOrder(item)}/>
+                  <Button className={css(styles.opbtn)} title="Adicionar" handleclick={() => addOption(item)}/>
                 </div>
               }
             </>
