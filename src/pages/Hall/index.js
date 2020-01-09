@@ -17,6 +17,7 @@ const Hall = () => {
   const [hboption, setOption] = useState ('')
   const [hbextra, setExtra] = useState('')
   const [open, setOpen] = useState(false)
+  const [doneOrders, setDoneOrders] = useState([])
   
     
   const addOrder = (item) => {
@@ -56,16 +57,20 @@ const Hall = () => {
 
 	useEffect(() => {
 		fire.collection('Historico')
-    .orderBy('time', 'desc')
+    .orderBy('time', 'asc')
     .onSnapshot((snap) => {
       const orders = snap.docs.map((doc) => ({
-        id: doc.id,
-        count: 0,
+        id2: doc.id,
         ...doc.data()
       }))
+      console.log(orders);      
+      
       setDoneOrders(orders);
     })
   },[])
+
+
+  
     
   return (
     <Tabs>

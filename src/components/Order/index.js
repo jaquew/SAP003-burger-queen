@@ -34,13 +34,7 @@ if (item.count === 1){
 
 const sendOrder = (orders) => {
 if (orders.length && table) {
-	const product = orders.map((order) => {
-		if (order.hbextra){
-			return (`(${order.count}) ${order.name}: ${order.hboption}. Extra: ${order.hbextra}`)
-		} else {
-			return `(${order.count}) ${order.name} `
-		}
-	})
+	const product = orders.map((order) => `(${order.count}) ${order.name} `)
 
 	const clientOrder = {
 		name: clientName,

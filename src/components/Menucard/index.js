@@ -10,11 +10,11 @@ import Options from '../Options'
 const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen}) => {
   
   const [menu, setMenu] = useState([])  
-  const [open, setOpen] = useState(false)
+  // const [open, setOpen] = useState(false)
 
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
-  const [menu, setMenu] = useState([])
+  // const [menu, setMenu] = useState([])
 
   const handleChange = (e) => {
     const value = e.target.value;
