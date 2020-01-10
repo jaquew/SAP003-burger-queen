@@ -37,12 +37,11 @@ function Kitchen(){
   const orderReady = (order) => {    
     if (order.status==="Confirmar"){
       order.ready = true;
-      const endTime = new Date()      
-      const readyTime = new Date(endTime - order.time.toDate()).toISOString().substr(11,8)
-      
-      const readyOrder = {...order, readyTime, delivered: false}
-      
+
+      const readyOrder = {...order, delivered: false}
+    
       fire.collection('Historico').add(readyOrder)
+     
       fire.collection('Pedidos').doc(order.id).delete()
     
     } else {
@@ -82,14 +81,14 @@ function Kitchen(){
         {orderDone.slice(0, history).map( (done) => (
           <div className={css(styles.doneList)}>
             <p>Mesa: {done.table}. {done.name}</p>
-            <p>Tempo de preparo: {done.readyTime}</p>
+            <p>Tempo até ser entregue: {done.readyTime}</p>
             {done.product.map((item) => (
               <ul key={item+done.id}>
                 <li>{item}</li>
               </ul>
             ))}
-            {done.delivered ? <p>Entregue</p> : <p>Pendente</p>}
-            </div>
+            <p> Status: {done.delivered ? `Entregue` : `Pendente`}</p>
+          </div>
         ))}
         <Button handleclick={showMore} title="Ver mais"/>
       </div>

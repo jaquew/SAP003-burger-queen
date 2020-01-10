@@ -11,14 +11,14 @@ const DoneOrders = ({doneOrders, setDoneOrders}) => {
 
   const deliverOrder = (done) => {
     console.log(done.id);
+    const endTime = new Date()      
+    const readyTime = new Date(endTime - done.time.toDate()).toISOString().substr(11,8)
 
     fire.collection('Historico').doc(done.id2).update({
-      delivered: true
+      delivered: true,
+      readyTime
     })
-    
   }
-
-	
 
 	return (
 		<section>

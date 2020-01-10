@@ -18,14 +18,15 @@ const Hall = () => {
   const [hbextra, setExtra] = useState('')
   const [open, setOpen] = useState(false)
   const [doneOrders, setDoneOrders] = useState([])
+  const [active, setActive] = useState({a:true})
+  const [show, setShow] = useState('')
   
     
   const addOrder = (item) => {
     const index = orders.findIndex((i) => i.name === item.name)    
 
     if (index === -1) {
-      item.count = 1;
-      setOrders([...orders, {...item}])
+      setOrders([...orders, {...item, count: 1}])
     } else{
       plusItem(orders[index])
     }
@@ -33,7 +34,7 @@ const Hall = () => {
     setOption('')
     setExtra('')
     setOpen(false)
-  }
+  }  
 
   const plusItem = (item) =>{
     item.count++
@@ -47,7 +48,6 @@ const Hall = () => {
     .then((snap) => {
       const newItems = snap.docs.map((doc) => ({
         id: doc.id,
-        count: 0,
         ...doc.data()
       }))
       setItems(newItems)
@@ -62,33 +62,24 @@ const Hall = () => {
       const orders = snap.docs.map((doc) => ({
         id2: doc.id,
         ...doc.data()
-      }))
-      console.log(orders);      
-      
+      }))      
       setDoneOrders(orders);
     })
   },[])
-
-
-  
     
   return (
-    <Tabs>
+    <section>
     <div className={css(styles.tabMenu)}>
-      <Tab><button className={css(styles.tab)}>Principal</button></Tab>
-      <Tab><button className={css(styles.tab)}>Pedidos Prontos</button></Tab>
-    </div>
+      <button className={active.a ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=> setActive({a: true, b:false})}>Principal</button>
+      <button className={active.b ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=>setActive({a:false, b:true})}>Pedidos Prontos</button>
+    </div>    
 
-    <Panel>
-      <section className={css(styles.halllayout)}>
+      {active.a && <section className={css(styles.halllayout)}>
         <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} hbextra={hbextra} />
         <Order orders={orders} total={total} plusItem={plusItem} setTotal={setTotal} setOrders={setOrders} hboption={hboption} hbextra={hbextra} />
-      </section>
-    </Panel>
-    <Panel>
-      <DoneOrders doneOrders={doneOrders} setDoneOrders={setDoneOrders} />
-    </Panel>
-  </Tabs>
+      </section>}
+      {active.b && <DoneOrders doneOrders={doneOrders} setDoneOrders={setDoneOrders} />}
+  </section>
   )
 }
 
@@ -133,17 +124,21 @@ const styles = StyleSheet.create({
   tab: {
     outline: "none",
     width: "50%",
-    cursor: "pointer",
-    fontSize: "16px",
+    fontSize: "20px",
     lineHeight: "24px",
     padding: "8px 16px",
-    color: "#492796",
-    backgroundColor: "#fff",
-    border: "1px solid #f1f1f1",
-    boxShadow: "0 2px 16px 0 rgba(0,0,0,.1)",
-    // marginRight: "24px",
-     ':transition': "color .16s ease-in-out,background-color .16s ease-in-out,border-color .16s ease-in-out",
-}
+    backgroundColor: "Transparent",
+    color: "#fff",
+    border: "none",
+    marginBottom: "15px",
+    ':focus': {
+      outline: "0",
+    },
+  },
+  activeTab:{
+    borderBottom: "2px solid #25B6D2",
+
+  }
 })
 
 export default Hall

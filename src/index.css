@@ -8,9 +8,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+  
 }
-
+button::-moz-focus-inner {
+  border: 0;
+}
+input::-moz-focus-inner{
+  border: 0;
+}
+a::-moz-focus-inner{
+  border: 0;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+p{
+  margin: 5px;
 }

@@ -8,13 +8,10 @@ import Input from '../Input'
 import Options from '../Options'
 
 const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen}) => {
-  
-  const [menu, setMenu] = useState([])  
-  // const [open, setOpen] = useState(false)
-
+  const [menu, setMenu] = useState(items.filter(item => item.bf===true))
+  const [active, setActive] = useState({a: true})
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
-  // const [menu, setMenu] = useState([])
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -31,18 +28,21 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
     }
   }
 
+  console.log(menu);
+  console.log(breakfast);
+  
   
   return (
     <section className={css(styles.menubox)}>
       <h2>Menu</h2>
-        <Button className={css(styles.menuTab)}  title="cafe" handleclick ={() => setMenu([...breakfast])}  />
-        <Button className={css(styles.menuTab)}  title="dia" handleclick ={() => setMenu([...allday])}  />
+        <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActive({a:true, b:false})}}  />
+        <Button className={active.b? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActive({a:false, b:true})} }  />
       <div className={css(styles.btnBox)}>
       {menu.map((item)=> (
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
             <>
-              <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => setOpen(!open)} />
+              <Input className={css(styles.menubtn)} type="submit" value={`${item.name} \n R$ ${item.price},00`} id={item.id} handleclick={() => setOpen(!open)} />
               {open &&
                 <div className={css(styles.aditional)}>
                   <Options array={item.options} name='Opções' item={item} handleChange={handleChange}/>
@@ -63,14 +63,24 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
 }
 
 const styles = StyleSheet.create({
-  halllayout: {
-    display:"flex",
-    padding: "20px"
-  },
   menubox:{
-    width: "50%",
+    width: "65%",
     margin: "5px",
     marginLeft: "10px"
+  },
+  menuTab:{
+    width: "50%",
+    backgroundColor: "Transparent",
+    color: "#fff",
+    border: "none",
+    height: "40px",    
+    marginBottom: "15px",
+    ':focus': {
+      outline: "0",
+    },
+  },
+  activeTab:{
+    borderBottom: "2px solid #25B6D2",
   },
   btnlayout: {
     display:"flex",
@@ -79,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
     minHeight: "70px",
-    width: "45%",
+    width: "40%",
   },
   btn: {
     width: "100%"
@@ -88,10 +98,10 @@ const styles = StyleSheet.create({
     backgroundColor: "Transparent",
     fontFamily: "Arial",
     width: "100%",
-    height: "55px",
+    height: "65px",
     whiteSpace: "normal",
     color: "#fff",
-    border: "1px solid #25B6D2",
+    border: "3px solid #25B6D2",
     borderRadius: "15px",
     ':active': {
       backgroundColor: "#25B6D2",

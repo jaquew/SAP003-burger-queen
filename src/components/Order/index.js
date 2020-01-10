@@ -75,9 +75,7 @@ return(
 		<div key={order.id} className={css(styles.placeorder)}>
 			<div className={css(styles.ordername)}>
 				<p>{order.name}</p>
-				{order.hboption && <p>{order.hboption}, {order.hbextra}</p>}
 			</div>
-
 			<div className={css(styles.control)}>  
 				<Input className={css(styles.updatebtn)} type="image" src="images/minus.png" handleclick={() => minusItem(order)}/>
 
@@ -93,7 +91,7 @@ return(
 		</div>
 				
 	))}
-	<p className={css(styles.price, styles.total)}>Total: R${total},00</p>
+	<p className={css(styles.total)}>Total: R${total},00</p>
 	<Button className={css(styles.sendbtn)} title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
 </section>
 )
@@ -102,10 +100,10 @@ return(
 
 const styles = StyleSheet.create({
 	orderbox:{
-	width: "45%",
-	margin: "5px",
-	marginRight: "15px"
-	
+		width: "30%",
+		margin: "5px",
+		marginRight: "15px",
+		fontSize: "90%",
 	},
 	clientData: {
 		display: "flex",
@@ -114,47 +112,50 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	updatebtn: {
-	height: "30px",
-	width: "30px",
-	padding: "5px",
+		height: "30px",
+		width: "30px",
+		padding: "5px",
 	},
 	placeorder:{
-	display: "flex",
-	flexWrap: "wrap",
-	alignItems: "center",
-	justifyContent: "space-evenly",
-	margin: "5px 0",
+		display: "flex",
+		flexWrap: "wrap",
+		alignItems: "center",
+		justifyContent: "space-evenly",
+		margin: "5px 0",
 	},
 	ordername: {
-	width: "100%",
-	textAlign: "center"
+		width: "100%",
+		textAlign: "center"
 	},
 	price: {
-	justifyContent: "flex-end",
-	display: "flex",
-	alignItems: "center",
-	width: "30%"
-	},
-	control:{
+		justifyContent: "flex-end",
+		display: "flex",
+		alignItems: "center",
 		width: "30%"
 	},
+	control:{
+		width: "30%",
+		display: "flex",
+		alignItems: "center"
+	},
 	total: {
-	marginRight: "10px",
-	fontSize: "1.4em"
+		fontSize: "1.4em",
+		textAlign: "right",
+		margin: "10px 15%"
 	},
 	sendbtn: {
-	backgroundColor: "#2c2c2c",
-	color: "#fff",
-	borderRadius: "15px",
-	width: "100%",
-	margin: "5px auto",
-	height: "60px",
-	fontSize: "1.2em",
-	border: "1px solid #25B6D2",
-	':active': {
-		backgroundColor: "#25B6D2",
-	},
+		backgroundColor: "Transparent",
+		color: "#fff",
+		borderRadius: "15px",
+		width: "100%",
+		margin: "5px auto",
+		height: "60px",
+		fontSize: "1.2em",
+		border: "1px solid #25B6D2",
+		':active': {
+			backgroundColor: "#25B6D2",
+		},
 	}
-	})
+})
 	
 export default Order
