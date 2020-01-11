@@ -10,91 +10,90 @@ import Button from '../Button'
 
 
 const Order = ({ orders, total, plusItem, setTotal, setOrders }) => {
-const [clientName, setName] = useState('')
-const [table, setTable] = useState(0)
+	const [clientName, setName] = useState('')
+	const [table, setTable] = useState(0)
 
-const deleteItem = (item) => {
-const index = (orders.indexOf(item));
-orders.splice(index, 1)
-setOrders([...orders]);
-const deleteTotal = total - (item.price * item.count)
-setTotal(deleteTotal)
-}
-
-const minusItem = (item) => {
-if (item.count === 1){
-	deleteItem(item)
-} else {			
-	item.count -= 1
+	const deleteItem = (item) => {
+	const index = (orders.indexOf(item));
+	orders.splice(index, 1)
 	setOrders([...orders]);
-	const minusTotal = total  - item.price
-	setTotal(minusTotal)
-}
-}
-
-const sendOrder = (orders) => {
-if (orders.length && table) {
-	const product = orders.map((order) => `(${order.count}) ${order.name} `)
-
-	const clientOrder = {
-		name: clientName,
-		table: table,
-		product,
-		time: firebase.firestore.FieldValue.serverTimestamp(),
-		total: total,
-		ready: false,
-		status: "Pronto",
+	const deleteTotal = total - (item.price * item.count)
+	setTotal(deleteTotal)
 	}
 
-	fire.collection('Pedidos').add(clientOrder)
-	setOrders([]);
-	setTotal(0)
-	setName('');
-	setTable(0);
-	growl.success({text: 'Pedido Enviado', fadeAway: true, fadeAwayTimeout: 2500});
-} else if (!orders.length) {
-	growl.warning({text:'Coloque pelo menos 1 item no pedido!', fadeAway: true, fadeAwayTimeout: 2500})
-	
-} else {
-	growl.warning({text:'Preencha o número da mesa!',fadeAway: true, fadeAwayTimeout: 2500})
+	const minusItem = (item) => {
+	if (item.count === 1){
+		deleteItem(item)
+	} else {			
+		item.count -= 1
+		setOrders([...orders]);
+		const minusTotal = total  - item.price
+		setTotal(minusTotal)
+	}
+	}
 
-}
-}
+	const sendOrder = (orders) => {
+		if (orders.length && table) {
+			const product = orders.map((order) => `${order.count}x ${order.name} `)
+			const clientOrder = {
+				name: clientName,
+				table: table,
+				product,
+				time: firebase.firestore.FieldValue.serverTimestamp(),
+				total: total,
+				ready: false,
+				status: "Pronto",
+			}
+			fire.collection('Pedidos').add(clientOrder)
+			setOrders([]);
+			setTotal(0)
+			setName('');
+			setTable(0);
+			growl.success({text: 'Pedido Enviado', fadeAway: true, fadeAwayTimeout: 2500});
 
-return(	
-<section className={css(styles.orderbox)}>
-		<h3>Pedido de {clientName}</h3>
+		} else if (!orders.length) {
+			growl.warning({text:'Coloque pelo menos 1 item no pedido!', fadeAway: true, fadeAwayTimeout: 2500})
+			
+		} else {
+			growl.warning({text:'Preencha o número da mesa!',fadeAway: true, fadeAwayTimeout: 2500})
+		}
+	}
 
-		<form className={css(styles.clientData)}>
-			<p>Mesa {table}</p>
-			<Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
-			<Input type="number" value={table} place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/>
-		</form>
 
-		{orders.map((order) =>(
-		<div key={order.id} className={css(styles.placeorder)}>
-			<div className={css(styles.ordername)}>
-				<p>{order.name}</p>
+	return(	
+	<section className={css(styles.orderbox)}>
+			<h3>Pedido de {clientName}</h3>
+
+			<form className={css(styles.clientData)}>
+				<p>Mesa {table}</p>
+				<Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
+				<Input type="number" value={table} place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/>
+			</form>
+
+			{orders.map((order) =>(
+			<div key={order.id} className={css(styles.placeorder)}>
+				<div className={css(styles.ordername)}>
+					<p>{order.name}</p>
+				</div>
+				<div className={css(styles.control)}>  
+					<Input className={css(styles.updatebtn)} type="image" src="images/minus.png" handleclick={() => minusItem(order)}/>
+
+					<span>{order.count}</span>
+
+					<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => plusItem(order)}/>
+				</div>
+
+				<div className={css(styles.price)}>
+					<span>R${order.price * order.count},00</span>  
+					<Input className={css(styles.updatebtn)} type="image" src="images/remove.png" handleclick={() => deleteItem(order)} />
+				</div>
 			</div>
-			<div className={css(styles.control)}>  
-				<Input className={css(styles.updatebtn)} type="image" src="images/minus.png" handleclick={() => minusItem(order)}/>
-
-				<span>{order.count}</span>
-
-				<Input className={css(styles.updatebtn)} type="image" src="images/add.png" handleclick={() => plusItem(order)}/>
-			</div>
-
-			<div className={css(styles.price)}>
-				<span>R${order.price * order.count},00</span>  
-				<Input className={css(styles.updatebtn)} type="image" src="images/remove.png" handleclick={() => deleteItem(order)} />
-			</div>
-		</div>
-				
-	))}
-	<p className={css(styles.total)}>Total: R${total},00</p>
-	<Button className={css(styles.sendbtn)} title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
-</section>
-)
+					
+		))}
+		<p className={css(styles.total)}>Total: R${total},00</p>
+		<Button className={css(styles.sendbtn)} title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
+	</section>
+	)
 
 }
 

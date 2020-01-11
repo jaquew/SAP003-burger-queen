@@ -54,7 +54,7 @@ const Hall = () => {
 
 	useEffect(() => {
 		fire.collection('Historico')
-    .orderBy('time', 'asc')
+    .orderBy('time', 'desc')
     .onSnapshot((snap) => {
       const orders = snap.docs.map((doc) => ({
         id2: doc.id,
@@ -63,12 +63,14 @@ const Hall = () => {
       setDoneOrders(orders);
     })
   },[])
+
+
     
   return (
     <section>
     <div className={css(styles.tabMenu)}>
       <button className={active ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=> setActive(active => !active)}>Principal</button>
-      <button className={!active ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=>setActive(active => !active)}>Pedidos Prontos</button>
+      <button className={!active ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=>setActive(active => !active)}>Pedidos Prontos ({(doneOrders.filter(order => order.delivered===false)).length})</button>
     </div>    
 
       {active && <section className={css(styles.halllayout)}>
