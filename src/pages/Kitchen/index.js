@@ -60,7 +60,7 @@ function Kitchen(){
         <h2>Pedidos na Fila</h2>
         {orders.map((order)=> (
           <>
-            {order.ready===false &&
+            {!order.ready &&
             <div key={order.id}>Histórico
             <p>Mesa: {order.table}. {order.name} <Button title={order.status} handleclick={() => orderReady(order)} /></p>
             {order.time.toDate().toLocaleTimeString("pt-BR")}

@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     margin: "0",
-    fontSize: "0.7em"
+    fontSize: "0.7em",
+    width: "35%"
   },
 })
 

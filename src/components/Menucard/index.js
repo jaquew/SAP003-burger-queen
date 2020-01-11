@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, css } from 'aphrodite';
 import growl from 'growl-alert'
 import 'growl-alert/dist/growl-alert.css'
@@ -8,10 +8,19 @@ import Input from '../Input'
 import Options from '../Options'
 
 const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen}) => {
-  const [menu, setMenu] = useState(items.filter(item => item.bf===true))
-  const [active, setActive] = useState({a: true})
+  const [active, setActive] = useState({b: true})
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
+  const [menu, setMenu] = useState([])
+  
+  useEffect(()=> {
+    setMenu([...breakfast]);
+  },[items])
+
+  useEffect(()=> {
+    setOpen({status :false})
+  },[menu])
+
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -27,31 +36,26 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
       growl.warning({text:'Coloque a opção do hamburguer',fadeAway: true, fadeAwayTimeout: 2000})
     }
   }
-
-  console.log(menu);
-  console.log(breakfast);
-  
   
   return (
     <section className={css(styles.menubox)}>
       <h2>Menu</h2>
-        <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActive({a:true, b:false})}}  />
-        <Button className={active.b? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActive({a:false, b:true})} }  />
+        <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Menu Completo" handleclick ={() => {setMenu([...items]); setActive({a:true, b:false, c:false})}}/>
+        <Button className={active.b? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActive({a:false, b:true, c:false})}} />
+        <Button className={active.c? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActive({a:false, b:false, c:true})} } />
       <div className={css(styles.btnBox)}>
-      {menu.map((item)=> (
+
+        {open.status &&
+          <div className={css(styles.aditional)}>                        
+            <Options array={open.menuItem.options} name='Opções' item={open.menuItem} handleChange={handleChange}/>
+            <Options array={open.menuItem.extra} name='Extra' item={open.menuItem} handleChange={handleChange}/>
+            <Button className={css(styles.opbtn)} title="Adicionar" handleclick={() => addOption(open.menuItem)}/>
+          </div>
+        }
+      {menu.map((item)=> ( 
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
-            <>
-              <Input className={css(styles.menubtn)} type="submit" value={`${item.name} \n R$ ${item.price},00`} id={item.id} handleclick={() => setOpen(!open)} />
-              {open &&
-                <div className={css(styles.aditional)}>
-                  <Options array={item.options} name='Opções' item={item} handleChange={handleChange}/>
-                  <Options array={item.extra} name='Extra' item={item} handleChange={handleChange}/>
-
-                  <Button className={css(styles.opbtn)} title="Adicionar" handleclick={() => addOption(item)}/>
-                </div>
-              }
-            </>
+            <Input className={css(styles.menubtn)} type="submit" value={`${item.name} \n R$ ${item.price},00`} id={item.id} handleclick={() => setOpen({status:true, menuItem: item})} />
           :
             <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => addOrder(item)} />
           }
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     marginLeft: "10px"
   },
   menuTab:{
-    width: "50%",
+    width: "30%",
     backgroundColor: "Transparent",
     color: "#fff",
     border: "none",
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     },
   },
   activeTab:{
-    borderBottom: "2px solid #25B6D2",
+    borderBottom: "3px solid #25B6D2",
   },
   btnlayout: {
     display:"flex",
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
     fontFamily: "Arial",
     width: "100%",
     height: "65px",
+    marginBottom: "15px",
     whiteSpace: "normal",
     color: "#fff",
     border: "3px solid #25B6D2",
@@ -108,10 +113,11 @@ const styles = StyleSheet.create({
     },
   },
   opbtn: {
-    backgroundColor: "#2c2c2c",
+    backgroundColor: "Transparent",
     color: "#fff",
     fontFamily: "Arial",
-    width: "100%",
+    width: "50%",
+    marginBottom: "10px",
     height: "30px",
     border: "1px solid #25B6D2",
     borderRadius: "15px",
@@ -131,17 +137,9 @@ const styles = StyleSheet.create({
   },
   aditional: {
     display: "flex",
-    justifyContent: "center",
-    flexDirection: "column"
-  },
-  list: {
-    listStyle: "none",
-    padding: "5px",
-    display: "flex",
     justifyContent: "space-around",
-    alignItems: "center",
-    margin: "0",
-    fontSize: "0.7em"
+    width: "90%",
+    flexWrap: "wrap",
   },
 })
 

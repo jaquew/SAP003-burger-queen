@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Tabs, Tab, Panel } from '@bumaga/tabs' 
-// import { Tabs, useTabState, usePanelState } from "@bumaga/tabs";
 import growl from 'growl-alert'
 import 'growl-alert/dist/growl-alert.css'
 
@@ -16,10 +14,9 @@ const Hall = () => {
   const [total, setTotal] = useState(0)
   const [hboption, setOption] = useState ('')
   const [hbextra, setExtra] = useState('')
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState({status: false})
   const [doneOrders, setDoneOrders] = useState([])
-  const [active, setActive] = useState({a:true})
-  const [show, setShow] = useState('')
+  const [active, setActive] = useState(true)
   
     
   const addOrder = (item) => {
@@ -33,7 +30,7 @@ const Hall = () => {
     setTotal(total + item.price);
     setOption('')
     setExtra('')
-    setOpen(false)
+    setOpen({status:false})
   }  
 
   const plusItem = (item) =>{
@@ -70,15 +67,15 @@ const Hall = () => {
   return (
     <section>
     <div className={css(styles.tabMenu)}>
-      <button className={active.a ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=> setActive({a: true, b:false})}>Principal</button>
-      <button className={active.b ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=>setActive({a:false, b:true})}>Pedidos Prontos</button>
+      <button className={active ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=> setActive(active => !active)}>Principal</button>
+      <button className={!active ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=>setActive(active => !active)}>Pedidos Prontos</button>
     </div>    
 
-      {active.a && <section className={css(styles.halllayout)}>
+      {active && <section className={css(styles.halllayout)}>
         <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} hbextra={hbextra} />
         <Order orders={orders} total={total} plusItem={plusItem} setTotal={setTotal} setOrders={setOrders} hboption={hboption} hbextra={hbextra} />
       </section>}
-      {active.b && <DoneOrders doneOrders={doneOrders} setDoneOrders={setDoneOrders} />}
+      {!active && <DoneOrders doneOrders={doneOrders} setDoneOrders={setDoneOrders} />}
   </section>
   )
 }
@@ -86,40 +83,8 @@ const Hall = () => {
 const styles = StyleSheet.create({
   halllayout: {
     display:"flex",
-    padding: "5px"
-  },
-  menubox:{
-    width: "50%"
-  },
-  btnlayout: {
-    display:"flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap",
-    minHeight: "70px"
-  },
-  menubtn: {
-    backgroundColor: "#fff",
-    fontFamily: "Arial",
-    width: "50%",
-    height: "50px",
-    border: "1px solid #c44",
-    borderRadius: "15px",
-    ':active': {
-      backgroundColor: "#492796",
-      color: "#fff"
-    },
-  },
-  btnlabel: {
-    width: "20%",
-    textAlign: "right"
-  },
-  extras: {
-    width: "60%"
-  },
-  tabMenu: {
-    display: "flex",
-    justifyContent: "space-around"
+    padding: "5px",
+    // flexDirection: 'column'
   },
   tab: {
     outline: "none",
@@ -136,8 +101,7 @@ const styles = StyleSheet.create({
     },
   },
   activeTab:{
-    borderBottom: "2px solid #25B6D2",
-
+    borderBottom: "4px solid #25B6D2",
   }
 })
 

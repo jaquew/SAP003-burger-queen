@@ -20,11 +20,10 @@ function App() {
           <Route path="/kitchen" component={Kitchen}/>
 
           <Route path="/">
-          <section className={css(styles.main)}>
+            <section className={css(styles.main)}>
               <Link className={css(styles.link)} to="/hall" ><h3>Hall</h3></Link>
               <Link to="/kitchen" className={css(styles.link)}><h3>Cozinha</h3></Link>
-
-          </section>
+            </section>
           </Route>
     
         </Switch>
@@ -60,7 +59,6 @@ const styles = StyleSheet.create({
   logo: {
     width: "60%",
     textAlign: "center"
-    // margin: "auto",
   },
 
   main: {
