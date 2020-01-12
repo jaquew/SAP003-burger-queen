@@ -4,6 +4,7 @@ import growl from 'growl-alert'
 import 'growl-alert/dist/growl-alert.css'
 import fire from '../../utils/firebaseUtils'
 import Button from '../../components/Button'
+import OrderCard from '../../components/OrderCard'
 
 const DoneOrders = ({doneOrders, setDoneOrders}) => {
   const [history, setHistory] = useState(3)
@@ -29,12 +30,16 @@ const DoneOrders = ({doneOrders, setDoneOrders}) => {
 	return (
 		<div className={css(styles.halllayout)}>
     <section className={css(styles.orderMain, styles.vertical)}>
-			<h1>Pedidos Prontos</h1>
+			<h1 className={css(styles.boxTitle)}>Pedidos Prontos</h1>
 			{ordersShow.map( (done) => (
+        <div key={done.id} className={css(styles.orderCard)}>
+          <OrderCard order={done}/>
+          <Button title='Entregue' handleclick={() => deliverOrder(done)} />
+        </div> 
 
-          <div className='bla' key={done.id}>
+          /*<div className='bla' key={done.id}>
             <p>Mesa: {done.table}. {done.name}</p>
-            {/* {console.log(done.readyTime)} */}
+            {/* {console.log(done.readyTime)} 
             <p>Tempo de preparo: {done.readyTime}</p>
             {done.product.map((item) => (
               <ul key={item+done.id}>
@@ -43,12 +48,11 @@ const DoneOrders = ({doneOrders, setDoneOrders}) => {
             ))}
             {done.delivered ? <p>Entregue</p> : <p>Pendente</p>}
 
-            <Button title='Entregue' handleclick={() => deliverOrder(done)} />
-            </div>
+            </div>*/
 			))}
     </section>
     <section className={css(styles.histAside, styles.vertical)}>
-      <h3>Histórico</h3>
+      <h3 className={css(styles.boxTitle)}>Histórico</h3>
 
 
       <div className={css(styles.historyBox)}>
@@ -83,13 +87,19 @@ const styles = StyleSheet.create({
     },
   },
   orderMain: {
-    width: "65%",
+    borderRight: "1px solid #25B6D2",
+    width: "70%",
     display: "flex",
-    flexWrap: "wrap"
-
+    flexWrap: "wrap",
+    justifyContent: "space-evenly",
   },
   histAside:{
     width: "30%",
+  },
+  boxTitle:{
+    width: "90%",
+    textAlign: "center",
+    margin: "10px 0",
   },
   vertical: {
     '@media (max-width: 850px)': {
@@ -97,8 +107,22 @@ const styles = StyleSheet.create({
       width: "90%",
       margin: "auto"
     },
-  }
-
+  },
+  orderCard:{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "30%",
+    padding: "15px",
+    border: "2px solid #25B6D2",
+    borderRadius: "15px",
+    margin: "10px",
+    boxSizing: "border-box",
+    '@media (max-width: 850px)': {
+      minWidth: "40%",
+    },
+  },
 })
 
 export default DoneOrders

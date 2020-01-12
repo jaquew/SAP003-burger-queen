@@ -55,9 +55,9 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
       {menu.map((item)=> ( 
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
-            <Input className={css(styles.menubtn)} type="submit" value={`${item.name} \n R$ ${item.price},00`} id={item.id} handleclick={() => setOpen({status:true, menuItem: item})} />
+            <Button className={css(styles.menubtn)} type="submit" title={item.name} price={item.price} id={item.id} handleclick={() => setOpen({status:true, menuItem: item})} />
           :
-            <Input className={css(styles.menubtn)} type="submit" value={`${item.name}\n R$ ${item.price},00`} id={item.id} handleclick={() => addOrder(item)} />
+            <Button className={css(styles.menubtn)} type="submit" title={item.name} price={item.price} id={item.id} handleclick={() => addOrder(item)} />
           }
       </div>  
       ))}
@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
     width: "30%",
     backgroundColor: "Transparent",
     color: "#fff",
+    fontSize: "1.2rem",
     border: "none",
-    height: "40px",    
+    height: "50px",    
     marginBottom: "15px",
     ':focus': {
       outline: "0",
@@ -101,8 +102,9 @@ const styles = StyleSheet.create({
   menubtn: {
     backgroundColor: "Transparent",
     fontFamily: "Arial",
+    fontSize: "1.2rem",
     width: "100%",
-    height: "65px",
+    height: "80px",
     marginBottom: "15px",
     whiteSpace: "normal",
     color: "#fff",

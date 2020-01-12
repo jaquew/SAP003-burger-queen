@@ -34,7 +34,9 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders }) => {
 
 	const sendOrder = (orders) => {
 		if (orders.length && table) {
-			const product = orders.map((order) => `${order.count}x ${order.name} `)
+			const product = orders.map((order) =>  ({count: order.count, name: order.name}))
+			console.log(product);
+			
 			const clientOrder = {
 				name: clientName,
 				table: table,
