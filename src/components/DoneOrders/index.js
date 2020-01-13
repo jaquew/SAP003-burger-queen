@@ -1,25 +1,25 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { StyleSheet, css } from 'aphrodite';
-import growl from 'growl-alert'
-import 'growl-alert/dist/growl-alert.css'
 import fire from '../../utils/firebaseUtils'
 import Button from '../../components/Button'
 import OrderCard from '../../components/OrderCard'
 import HistoryCard from '../../components/HistoryCard'
 
-const DoneOrders = ({doneOrders, setDoneOrders}) => {
+const DoneOrders = ({doneOrders}) => {  
   const ordersShow = doneOrders.filter(order => order.delivered===false)
   const orderHistory = doneOrders.filter(order => order.delivered===true).sort((a,b) => a.time > b.time ? -1 : 1)
 
-  console.log(orderHistory);
-  
+  useEffect(() => {
+    console.log("rodou aqui");
+    
+  },[doneOrders])  
 
 
   const deliverOrder = (done) => {
     const endTime = new Date()      
-    const readyTime = new Date(endTime - done.time.toDate()).toISOString().substr(11,8)
-
-    fire.collection('Historico').doc(done.id2).update({
+    const readyTime = Math.floor((endTime - done.time.toDate())/60000)
+    
+    fire.collection('Pedidos').doc(done.id).update({
       delivered: true,
       readyTime
     })
@@ -32,7 +32,7 @@ const DoneOrders = ({doneOrders, setDoneOrders}) => {
 			{ordersShow.map( (done) => (
         <div key={done.id} className={css(styles.orderCard)}>
           <OrderCard order={done}/>
-          <Button title='Entregue' handleclick={() => deliverOrder(done)} />
+          <Button className={css(styles.orderBtn)} title='Entregue' handleclick={() => deliverOrder(done)} />
         </div> 
       ))}
     </section>
@@ -58,6 +58,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-evenly",
     alignContent: "flex-start",
+    '@media (max-width: 850px)': {
+      borderRight: "none"
+    },
 
   },
   histAside:{

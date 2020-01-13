@@ -7,7 +7,7 @@ import { StyleSheet, css } from 'aphrodite'
 
 function Kitchen(){
   const [orders,setOrders] = useState([])
-  const [orderDone, setOrderDone] = useState([])
+  const orderDone = orders.filter(el => el.ready).sort((a,b) => a.time > b.time ? -1 : 1)
 
   useEffect(() => {
     fire.collection('Pedidos')
@@ -20,31 +20,15 @@ function Kitchen(){
       setOrders(newOrder)
     })
   },[])
-
-  useEffect(() => {
-    fire.collection('Historico')
-    .orderBy('time', 'desc')
-    .onSnapshot((snap) => {
-      const done = snap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setOrderDone(done)
-    })
-  },[])
-
+    
   const orderReady = (order) => {    
     if (order.status==="Confirmar"){
       order.ready = true;
       const endTime = new Date()      
-      const kitchenTime = new Date(endTime - order.time.toDate()).toISOString().substr(11,8)
-  
-
-      const readyOrder = {...order, delivered: false, kitchenTime}
-    
-      fire.collection('Historico').add(readyOrder)
-     
-      fire.collection('Pedidos').doc(order.id).delete()
+      const kitchenTime = Math.floor((endTime - order.time.toDate())/60000)      
+      
+      const updateOrder = {ready: true, delivered: false, kitchenTime}
+      fire.collection('Pedidos').doc(order.id).update(updateOrder)
     
     } else {
       order.status = "Confirmar"
@@ -58,16 +42,13 @@ function Kitchen(){
       <h2 className={css(styles.boxTitle)}>Pedidos na Fila</h2>
         {orders.map((order)=> (
           <>
-            {!order.ready &&
-              <div key={order.id} className={css(styles.orderCard)}>
-
-                <OrderCard order={order}/>
-
-                <Button className={css(styles.orderBtn)} title={order.status} img="images/correct.png" handleclick={() => orderReady(order)} />
-		          </div>
-            }
-             
-            </>
+          {!order.ready &&
+            <div className={css(styles.orderCard)}>
+              <OrderCard order={order}/>
+              <Button className={css(styles.orderBtn)} title={order.status} img="images/correct.png" handleclick={() => orderReady(order)} />
+            </div>
+          }
+          </>
         ))}
       </div>
       
@@ -97,15 +78,16 @@ const styles = StyleSheet.create({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
-    alignContent: "flex-start"
+    alignContent: "flex-start",
+    '@media (max-width: 850px)': {
+      borderRight: "none"
+    },
   },
   boxTitle:{
     width: "90%",
     textAlign: "center",
     margin: "10px 0",
-  },
-  doneList: {
-    fontSize: "0.8em"
+    color: "#FFEE62"
   },
   orderCard:{
     display: "flex",
@@ -113,8 +95,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "30%",
-    // minWidth: "30%",
-    // maxWidth: "40%",
     padding: "10px",
     border: "2px solid #25B6D2",
     borderRadius: "15px",
@@ -130,15 +110,9 @@ const styles = StyleSheet.create({
     color: "#25B6D2",
     fontWeight: "bold"
   },
-  itemUl:{
-    paddingLeft: "15px",
-  },
-  itemN: {
-    listStyle: "none"
-  },
   orderBtn:{
     backgroundColor: "Transparent",
-    width: "50%",
+    width: "60%",
     height: "45px",
     marginBottom: "15px",
     whiteSpace: "normal",
@@ -146,16 +120,10 @@ const styles = StyleSheet.create({
     border: "2px solid #25B6D2",
     borderRadius: "15px",
     ':focus': {
-      backgroundColor: "#25B6D2",
+      backgroundColor: "#FFEE62",
+      color: "#000"
     },    
   },
-  count:{
-    marginRight: "7px"
-  },
-  historyBox:{
-    border: "1px solid white",
-
-  }
 })
 
 export default Kitchen
