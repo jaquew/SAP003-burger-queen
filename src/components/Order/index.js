@@ -36,6 +36,7 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders }) => {
 		if (orders.length && table) {
 			const product = orders.map((order) =>  ({count: order.count, name: order.name}))
 			console.log(product);
+			const agora = new Date()
 			
 			const clientOrder = {
 				name: clientName,
@@ -105,6 +106,10 @@ const styles = StyleSheet.create({
 		margin: "5px",
 		marginRight: "15px",
 		fontSize: "90%",
+		'@media (max-width: 850px)': {
+      width: "40%",
+
+    },
 	},
 	clientData: {
 		display: "flex",

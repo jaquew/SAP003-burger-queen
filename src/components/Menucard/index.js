@@ -70,7 +70,11 @@ const styles = StyleSheet.create({
   menubox:{
     width: "65%",
     margin: "5px",
-    marginLeft: "10px"
+    marginLeft: "10px",
+    '@media (max-width: 850px)': {
+      width: "50%",
+
+    },
   },
   menuTab:{
     width: "30%",
@@ -95,6 +99,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     minHeight: "70px",
     width: "40%",
+    '@media (max-width: 850px)': {
+      width: "70%",
+    },
   },
   btn: {
     width: "100%"

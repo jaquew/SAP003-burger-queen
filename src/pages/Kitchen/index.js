@@ -2,13 +2,12 @@ import React, {useState, useEffect} from 'react'
 import fire from '../../utils/firebaseUtils'
 import Button from '../../components/Button'
 import OrderCard from '../../components/OrderCard'
+import HistoryCard from '../../components/HistoryCard'
 import { StyleSheet, css } from 'aphrodite'
 
 function Kitchen(){
   const [orders,setOrders] = useState([])
   const [orderDone, setOrderDone] = useState([])
-  const [history, setHistory] = useState(3)
-  const now = new Date();
 
   useEffect(() => {
     fire.collection('Pedidos')
@@ -34,13 +33,14 @@ function Kitchen(){
     })
   },[])
 
-
-  
   const orderReady = (order) => {    
     if (order.status==="Confirmar"){
       order.ready = true;
+      const endTime = new Date()      
+      const kitchenTime = new Date(endTime - order.time.toDate()).toISOString().substr(11,8)
+  
 
-      const readyOrder = {...order, delivered: false}
+      const readyOrder = {...order, delivered: false, kitchenTime}
     
       fire.collection('Historico').add(readyOrder)
      
@@ -49,11 +49,7 @@ function Kitchen(){
     } else {
       order.status = "Confirmar"
     }
-    setOrders([...orders]) //usar o spread para criar um outro array, assim forçando a renderização da pag
-  }
-
-  const showMore = () => {
-    setHistory(history => history + 3)
+    setOrders([...orders])
   }
 
   return (
@@ -67,52 +63,22 @@ function Kitchen(){
 
                 <OrderCard order={order}/>
 
-                <Button className={css(styles.orderBtn)} title={order.status} handleclick={() => orderReady(order)} />
+                <Button className={css(styles.orderBtn)} title={order.status} img="images/correct.png" handleclick={() => orderReady(order)} />
 		          </div>
-
-            /* <div key={order.id} className={css(styles.orderCard)}>
-              <div>
-              <p className={css(styles.tableN)}>Mesa {order.table}</p>
-              <p>{Math.floor(((now - order.time.toDate())/60000))} min atrás</p>
-              </div>
-              
-              <ul className={css(styles.itemUl)} >
-                {order.product.map((item) => (
-                  <li key={item.name+order.id} className={css(styles.itemN)}><span className={css(styles.count)}>{item.count} x </span>{item.name}</li>
-                ))}
-              </ul>
-
-              <Button className={css(styles.orderBtn)} title={order.status} handleclick={() => orderReady(order)} />
-            </div>*/
             }
              
             </>
         ))}
       </div>
       
-      <div className={css(styles.historyBox, styles.vertical)}>
-        <h3 className={css(styles.boxTitle)}>Histórico</h3>
-        {orderDone.slice(0, history).map( (done) => (
-          <div className={css(styles.doneList)}>
-            <div>
-              <p>Mesa: {done.table}. {done.name}</p>
-              <p>Tempo até ser entregue: {done.readyTime}</p>
-            </div>
-            <ul>{done.product.map((item) => (
-              <li key={item+done.id}>{item}</li>
-            ))}</ul>
-            <p> Status: {done.delivered ? `Entregue` : `Pendente`}</p>
-          </div>
-        ))}
-        <Button handleclick={showMore} title="Ver mais"/>
-      </div>
+      <HistoryCard order={orderDone} />
+              
     </section>
   )
 }
 
 const styles = StyleSheet.create({
   kitchenLayout: {
-    border: "1px solid blue",
     display: "flex",
     justifyContent: "space-evenly",
     '@media (max-width: 850px)': {
@@ -127,10 +93,11 @@ const styles = StyleSheet.create({
   },
   orderBox: {
     borderRight: "1px solid #25B6D2",
-    width: "70%",
+    width: "75%",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
+    alignContent: "flex-start"
   },
   boxTitle:{
     width: "90%",
@@ -146,13 +113,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "30%",
-    padding: "15px",
+    // minWidth: "30%",
+    // maxWidth: "40%",
+    padding: "10px",
     border: "2px solid #25B6D2",
     borderRadius: "15px",
     margin: "10px",
     boxSizing: "border-box",
     '@media (max-width: 850px)': {
-      minWidth: "40%",
+      minWidth: "45%",
     },
 
   },

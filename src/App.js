@@ -10,7 +10,7 @@ function App() {
       <header className={css(styles.header)}>
         <a href="/" className={css(styles.back)}>Voltar</a>
         {/* <h2 className={css(styles.logo)}>Burguer Queen</h2> */}
-        <img src="images/logo.png"/>
+        <img src="images/logo.png" alt="Logo"/>
         <a href="/" className={css(styles.logout)}>Sair</a>
 
       </header>

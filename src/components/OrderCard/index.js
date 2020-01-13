@@ -21,22 +21,6 @@ const OrderCard = ({order}) => {
 }
 
 const styles = StyleSheet.create({
-orderCard:{
-	display: "flex",
-	flexDirection: "column",
-	alignItems: "center",
-	justifyContent: "space-between",
-	width: "30%",
-	padding: "15px",
-	border: "2px solid #25B6D2",
-	borderRadius: "15px",
-	margin: "10px",
-	boxSizing: "border-box",
-	'@media (max-width: 850px)': {
-		minWidth: "40%",
-	},
-
-},
 tableN: {
 	fontSize: "1.6rem",
 	color: "#25B6D2",
@@ -62,7 +46,7 @@ orderBtn:{
 	},    
 },
 count:{
-	marginRight: "7px"
+	paddingRight: "7px",
 },
 })
 

@@ -39,6 +39,10 @@ const Hall = () => {
     setTotal(total + (item.price));
     
   }
+
+  const myArr = Array.from(new Array(30),(val,index)=>index+1);
+  console.log(myArr);
+  
   
   useEffect(() => {
     fire.collection('Menu').get()
@@ -54,7 +58,7 @@ const Hall = () => {
 
 	useEffect(() => {
 		fire.collection('Historico')
-    .orderBy('time', 'desc')
+    .orderBy('time', 'asc')
     .onSnapshot((snap) => {
       const orders = snap.docs.map((doc) => ({
         id2: doc.id,

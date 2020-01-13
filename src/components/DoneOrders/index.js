@@ -5,15 +5,17 @@ import 'growl-alert/dist/growl-alert.css'
 import fire from '../../utils/firebaseUtils'
 import Button from '../../components/Button'
 import OrderCard from '../../components/OrderCard'
+import HistoryCard from '../../components/HistoryCard'
 
 const DoneOrders = ({doneOrders, setDoneOrders}) => {
-  const [history, setHistory] = useState(3)
-
   const ordersShow = doneOrders.filter(order => order.delivered===false)
-  const orderHistory = doneOrders.filter(order => order.delivered===true)
+  const orderHistory = doneOrders.filter(order => order.delivered===true).sort((a,b) => a.time > b.time ? -1 : 1)
+
+  console.log(orderHistory);
+  
+
 
   const deliverOrder = (done) => {
-    console.log(done.id);
     const endTime = new Date()      
     const readyTime = new Date(endTime - done.time.toDate()).toISOString().substr(11,8)
 
@@ -21,10 +23,6 @@ const DoneOrders = ({doneOrders, setDoneOrders}) => {
       delivered: true,
       readyTime
     })
-  }
-
-  const showMore = () => {
-    setHistory(history => history + 3)
   }
 
 	return (
@@ -36,45 +34,10 @@ const DoneOrders = ({doneOrders, setDoneOrders}) => {
           <OrderCard order={done}/>
           <Button title='Entregue' handleclick={() => deliverOrder(done)} />
         </div> 
-
-          /*<div className='bla' key={done.id}>
-            <p>Mesa: {done.table}. {done.name}</p>
-            {/* {console.log(done.readyTime)} 
-            <p>Tempo de preparo: {done.readyTime}</p>
-            {done.product.map((item) => (
-              <ul key={item+done.id}>
-                <li>{item}</li>
-              </ul>
-            ))}
-            {done.delivered ? <p>Entregue</p> : <p>Pendente</p>}
-
-            </div>*/
-			))}
+      ))}
     </section>
-    <section className={css(styles.histAside, styles.vertical)}>
-      <h3 className={css(styles.boxTitle)}>Histórico</h3>
-
-
-      <div className={css(styles.historyBox)}>
-        {orderHistory.slice(0, history).map( (hist) => (
-          
-          <div className={css(styles.histList)} key={`hist ${hist.id}`}>
-            <p>Mesa: {hist.table}. {hist.name}</p>
-            <p>Tempo de preparo: {hist.readyTime}</p>
-            {hist.product.map((item) => (
-              <ul key={item+hist.id}>
-                <li>{item}</li>
-              </ul>
-            ))}
-            {hist.delivered ? <p>Entregue</p> : <p>Pendente</p>}
-            </div>
-        ))}
-
-
-        <Button handleclick={showMore} title="Ver mais"/>
-      </div>
-    </section>
-		</div>
+    <HistoryCard order={orderHistory} />
+    </div>
 	)
 }
 
@@ -82,16 +45,20 @@ const styles = StyleSheet.create({
   halllayout: {
     display:"flex",
     padding: "5px",
+    justifyContent: "space-around",
+
     '@media (max-width: 850px)': {
       flexDirection: 'column'
     },
   },
   orderMain: {
     borderRight: "1px solid #25B6D2",
-    width: "70%",
+    width: "75%",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
+    alignContent: "flex-start",
+
   },
   histAside:{
     width: "30%",
@@ -103,7 +70,6 @@ const styles = StyleSheet.create({
   },
   vertical: {
     '@media (max-width: 850px)': {
-      backgroundColor: 'red',
       width: "90%",
       margin: "auto"
     },
@@ -114,15 +80,46 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "30%",
-    padding: "15px",
+    padding: "10px",
     border: "2px solid #25B6D2",
     borderRadius: "15px",
     margin: "10px",
     boxSizing: "border-box",
     '@media (max-width: 850px)': {
-      minWidth: "40%",
+      minWidth: "45%",
     },
   },
+  tableN: {
+    fontSize: "1.6rem",
+    color: "#25B6D2",
+    fontWeight: "bold"
+  },
+  itemUl:{
+    paddingLeft: "15px",
+  },
+  itemN: {
+    listStyle: "none"
+  },
+  orderBtn:{
+    backgroundColor: "Transparent",
+    width: "50%",
+    height: "45px",
+    marginBottom: "15px",
+    whiteSpace: "normal",
+    color: "#fff",
+    border: "2px solid #25B6D2",
+    borderRadius: "15px",
+    ':focus': {
+      backgroundColor: "#25B6D2",
+    },    
+  },
+  count:{
+    marginRight: "7px"
+  },
+  historyBox:{
+    border: "1px solid white",
+
+  }
 })
 
 export default DoneOrders
