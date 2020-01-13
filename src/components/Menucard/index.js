@@ -4,7 +4,6 @@ import growl from 'growl-alert'
 import 'growl-alert/dist/growl-alert.css'
 
 import Button from '../Button';
-import Input from '../Input'
 import Options from '../Options'
 
 const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen}) => {
@@ -29,8 +28,9 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
 
   const addOption = (item) =>{
     if (hboption) {
-      const orderPrice = hbextra !== 'Nenhum' ? item.price + 1 : item.price    
-      const updateItem = {...item, name: `${item.name} de ${hboption} com ${hbextra}`, price: orderPrice}
+      const orderPrice = hbextra !== 'Nenhum' ? item.price + 1 : item.price
+      const itemName = hbextra==='Nenhum' ? `${item.name} de ${hboption}` : `${item.name} de ${hboption} com ${hbextra}`
+      const updateItem = {...item, name: itemName, price: orderPrice}
       addOrder(updateItem)
     } else {
       growl.warning({text:'Coloque a opção do hamburguer',fadeAway: true, fadeAwayTimeout: 2000})
@@ -39,7 +39,7 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   
   return (
     <section className={css(styles.menubox)}>
-      <h2>Menu</h2>
+      <h2 className={css(styles.boxTitle)}>Menu</h2>
         <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Menu Completo" handleclick ={() => {setMenu([...items]); setActive({a:true, b:false, c:false})}}/>
         <Button className={active.b? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActive({a:false, b:true, c:false})}} />
         <Button className={active.c? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActive({a:false, b:false, c:true})} } />
@@ -90,6 +90,14 @@ const styles = StyleSheet.create({
   },
   activeTab:{
     borderBottom: "3px solid #25B6D2",
+    color: "#FFEE62",
+
+  },
+  boxTitle:{
+    width: "90%",
+    textAlign: "center",
+    margin: "10px 0",
+    color: "#FFEE62",
   },
   btnlayout: {
     display:"flex",

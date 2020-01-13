@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react'
-import Button from '../Button'
+import React from 'react'
 import { StyleSheet, css } from 'aphrodite'
 
 const OrderCard = ({order}) => {
@@ -8,7 +7,7 @@ const OrderCard = ({order}) => {
 		<>
 			<div>
 			<p className={css(styles.tableN)}>Mesa {order.table}</p>
-			<p>{Math.floor(((now - order.time.toDate())/60000))} min atrás</p>
+			<p><span role='img' aria-label='clockemoji'>⏰</span> {Math.floor((now - order.time.toDate())/60000)} min atrás</p>
 			</div>
 			
 			<ul className={css(styles.itemUl)} >
@@ -16,6 +15,7 @@ const OrderCard = ({order}) => {
 					<li key={item.name+order.id} className={css(styles.itemN)}><span className={css(styles.count)}>{item.count} x </span>{item.name}</li>
 				))}
 			</ul>
+			<p>Total: R$ {order.total},00</p>
 			</>
 	)
 }

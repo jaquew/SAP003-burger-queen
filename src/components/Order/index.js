@@ -35,8 +35,6 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders }) => {
 	const sendOrder = (orders) => {
 		if (orders.length && table) {
 			const product = orders.map((order) =>  ({count: order.count, name: order.name}))
-			console.log(product);
-			const agora = new Date()
 			
 			const clientOrder = {
 				name: clientName,
@@ -65,7 +63,7 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders }) => {
 
 	return(	
 	<section className={css(styles.orderbox)}>
-			<h3>Pedido de {clientName}</h3>
+			<h3 className={css(styles.boxTitle)}>Pedido de {clientName}</h3>
 
 			<form className={css(styles.clientData)}>
 				<p>Mesa {table}</p>
@@ -105,12 +103,19 @@ const styles = StyleSheet.create({
 		width: "30%",
 		margin: "5px",
 		marginRight: "15px",
-		fontSize: "90%",
+		// fontSize: "90%",
 		'@media (max-width: 850px)': {
       width: "40%",
 
     },
 	},
+	boxTitle:{
+		width: "90%",
+		fontSize: "1.3rem",
+		textAlign: "center",
+    margin: "10px 0",
+    color: "#FFEE62",
+  },
 	clientData: {
 		display: "flex",
 		justifyContent: "center",

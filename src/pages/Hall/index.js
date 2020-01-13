@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import growl from 'growl-alert'
-import 'growl-alert/dist/growl-alert.css'
 
 import fire from '../../utils/firebaseUtils'
 import Order from '../../components/Order'
@@ -57,16 +55,19 @@ const Hall = () => {
   
 
 	useEffect(() => {
-		fire.collection('Historico')
+		fire.collection('Pedidos')
     .orderBy('time', 'asc')
     .onSnapshot((snap) => {
       const orders = snap.docs.map((doc) => ({
-        id2: doc.id,
+        id: doc.id,
         ...doc.data()
-      }))      
+      }))
       setDoneOrders(orders);
     })
   },[])
+
+  console.log(doneOrders);
+  
 
 
     
@@ -77,11 +78,11 @@ const Hall = () => {
       <button className={!active ? css(styles.tab, styles.activeTab) : css(styles.tab)} onClick={()=>setActive(active => !active)}>Pedidos Prontos ({(doneOrders.filter(order => order.delivered===false)).length})</button>
     </div>    
 
-      {active && <section className={css(styles.halllayout)}>
+      {active ? <section className={css(styles.halllayout)}>
         <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} hbextra={hbextra} />
         <Order orders={orders} total={total} plusItem={plusItem} setTotal={setTotal} setOrders={setOrders} hboption={hboption} hbextra={hbextra} />
-      </section>}
-      {!active && <DoneOrders doneOrders={doneOrders} setDoneOrders={setDoneOrders} />}
+      </section>
+      : <DoneOrders doneOrders={doneOrders} setDoneOrders={setDoneOrders} />}
   </section>
   )
 }
@@ -90,7 +91,6 @@ const styles = StyleSheet.create({
   halllayout: {
     display:"flex",
     padding: "5px",
-    // flexDirection: 'column'
   },
   tab: {
     outline: "none",
