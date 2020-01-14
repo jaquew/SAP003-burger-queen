@@ -9,9 +9,8 @@ import fire from '../../utils/firebaseUtils'
 import Button from '../Button'
 
 
-const Order = ({ orders, total, plusItem, setTotal, setOrders }) => {
+const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable}) => {
 	const [clientName, setName] = useState('')
-	const [table, setTable] = useState(0)
 
 	const deleteItem = (item) => {
 	const index = (orders.indexOf(item));

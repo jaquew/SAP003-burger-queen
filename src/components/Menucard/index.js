@@ -6,11 +6,19 @@ import 'growl-alert/dist/growl-alert.css'
 import Button from '../Button';
 import Options from '../Options'
 
-const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen}) => {
-  const [active, setActive] = useState({b: true})
+const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen, table, setTable, doneOrders}) => {
+  const [active, setActive] = useState({a: true})
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
   const [menu, setMenu] = useState([])
+
+  const tableSet = Array.from(new Array(30),(val,index)=>(index+1).toString());
+  const mesaOcupada = []
+  doneOrders.forEach((order)=> mesaOcupada.push(order.table.toString()))
+  
+  const mesaVaga = tableSet.filter((item)=>(mesaOcupada.indexOf(item)==-1))
+  console.log(`mesa vaga: ${mesaVaga}`);
+  
   
   useEffect(()=> {
     setMenu([...breakfast]);
@@ -40,7 +48,7 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   return (
     <section className={css(styles.menubox)}>
       <h2 className={css(styles.boxTitle)}>Menu</h2>
-        <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Menu Completo" handleclick ={() => {setMenu([...items]); setActive({a:true, b:false, c:false})}}/>
+        <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Mesas" handleclick ={() => {setMenu([...items]); setActive({a:true, b:false, c:false})}}/>
         <Button className={active.b? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActive({a:false, b:true, c:false})}} />
         <Button className={active.c? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActive({a:false, b:false, c:true})} } />
       <div className={css(styles.btnBox)}>
@@ -52,7 +60,20 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
             <Button className={css(styles.opbtn)} title="Adicionar" handleclick={() => addOption(open.menuItem)}/>
           </div>
         }
-      {menu.map((item)=> ( 
+        {active.a ? 
+        <>
+        {doneOrders.map((item)=>(
+          <>
+          {/* {tableSet.filter((tableN)=> tableN!=item.table).map((order)=>(
+            <p>{order}</p>
+          ))} */}
+          <Button className={css(styles.tablebtn)} title={item.table} id={item.table} handleclick={() => setTable(item.table)} />
+          </>
+        ))}
+        </>
+        :
+        <>
+        {menu.map((item)=> ( 
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
             <Button className={css(styles.menubtn)} type="submit" title={item.name} price={item.price} id={item.id} handleclick={() => setOpen({status:true, menuItem: item})} />
@@ -61,6 +82,8 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
           }
       </div>  
       ))}
+      </>
+      }
     </div>
     </section>
   )
