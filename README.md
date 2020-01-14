@@ -11,11 +11,18 @@
 ***
 
 ## 1. Preâmbulo
-Projeto tal...
-
+Projeto apresentado ao bootcamp da Laboratória, turma SAP-003.
 
 ## 2. Resumo do projeto
-bla bla
+ O projeto consiste em uma aplicação para uma Hamburgueria/Restaurante para receber os pedidos, enviá-los para cozinha, marcar como prontos e como entregues.
+
+
+ Para o desenvolvimento da aplicação, foram usadas seguintes tecnologias e ferramentas:
+
+  * React Hooks
+  * Firebase 
+  * Framework [Aphrodite](https://github.com/Khan/aphrodite)
+  * Biblioteca [growl-alert](https://github.com/vfreitas-/growl-alert)
 
 
 
@@ -68,5 +75,39 @@ Eu como garçom/garçonete quero ver os pedidos que estão prontos para entregá
 * Marque os pedidos que foram entregues.
 
 ## 4. Funcionamento da Aplicação
+
+### Pagina inicial
+
+Na página inicial o usuário pode escolher qual interface quer acessar
+![Pagina Inicial](pinicial.png)
+
+### Interface Hall/Salão 
+
+Na aba Principal da página Hall o garçon/garçonete pode ver o cardápio completo ou separado por tipo. Pode incluir os pedidos clicando sobre o nome do produto. 
+
+Na caixa de pedidos, pode adicionar, subtrair ou deletar um item.
+
+![Pagina Hall](phall.png)
+
+Na aba Pedidos Prontos, o usuário pode acompanhar os pedidos que chegam da cozinha e marcá-los como entregue.
+
+É possivel, ainda, ver o histórico dos pedidos marcados como entregues, com o tempo que levou no preparo e o tempo até a entrega.
+
+![Pagina Pedido Pronto](pedidopronto.png)
+
+
+
+
+### Interface cozinha
+
+Na página Cozinha, o usuário pode ter acessos aos pedidos à medida que são feitos, o número da mesa e há quanto tempo foi realizado.
+
+Após selecionar o botão "Pronto", o pedido vai para o hitórico lateral onde tem o status de entrega adicionado ("Entregue" ou  "Pendente")
+
+![Pagina Hall](pcozinha.png)
+
+
+
+
 
 ## 7. Considerações Finais
