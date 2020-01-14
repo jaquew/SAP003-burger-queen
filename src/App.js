@@ -21,8 +21,8 @@ function App() {
 
           <Route path="/">
             <section className={css(styles.main)}>
-              <Link className={css(styles.link)} to="/hall" ><h3>Hall</h3></Link>
-              <Link to="/kitchen" className={css(styles.link)}><h3>Cozinha</h3></Link>
+              <Link className={css(styles.link)} to="/hall" >Hall</Link>
+              <Link to="/kitchen" className={css(styles.link)}>Cozinha</Link>
             </section>
           </Route>
     
@@ -50,10 +50,7 @@ const styles = StyleSheet.create({
     },
   },
   logout: {
-    width: "10%",
-    padding: "10px 5px",
-    color: "#fff",
-    textDecoration: "none",
+    visibility: "hidden"
 
   },
   logo: {
@@ -66,18 +63,24 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     height: "80vh",
     alignItems: "center",
-    textAlign: "center"
+    textAlign: "center",
+    '@media (max-width: 850px)': {
+      flexDirection: "column"
+    },
   },
   link: {
-    display: "inline-block",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     padding: "5px",
+    fontSize: "2rem",
     fontFamily: "Arial",
     width: "30%",
-    height: "55px",
+    height: "75px",
     whiteSpace: "normal",
     textDecoration: "none",
     color: "#fff",
-    border: "1px solid #25B6D2",
+    border: "3px solid #25B6D2",
     borderRadius: "15px",
     ':active': {
       backgroundColor: "#25B6D2",

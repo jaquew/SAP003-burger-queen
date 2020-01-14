@@ -65,11 +65,6 @@ const Hall = () => {
       setDoneOrders(orders);
     })
   },[])
-
-  console.log(doneOrders);
-  
-
-
     
   return (
     <section>

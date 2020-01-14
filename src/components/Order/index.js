@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
 		margin: "5px auto",
 		height: "60px",
 		fontSize: "1.2em",
-		border: "1px solid #25B6D2",
+		border: "3px solid #25B6D2",
 		':active': {
 			backgroundColor: "#25B6D2",
 		},

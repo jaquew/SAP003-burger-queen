@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "jw-burgerqueen"
+    "default": "jw-burgerqueen",
+    "bq": "jw-burgerqueen"
   }
 }

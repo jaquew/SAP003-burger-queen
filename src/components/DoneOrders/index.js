@@ -5,7 +5,7 @@ import Button from '../../components/Button'
 import OrderCard from '../../components/OrderCard'
 import HistoryCard from '../../components/HistoryCard'
 
-const DoneOrders = ({doneOrders}) => {  
+const DoneOrders = ({doneOrders}) => {    
   const ordersShow = doneOrders.filter(order => order.delivered===false)
   const orderHistory = doneOrders.filter(order => order.delivered===true).sort((a,b) => a.time > b.time ? -1 : 1)
 

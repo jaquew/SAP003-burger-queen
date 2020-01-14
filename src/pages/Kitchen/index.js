@@ -112,6 +112,9 @@ const styles = StyleSheet.create({
   },
   orderBtn:{
     backgroundColor: "Transparent",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around",
     width: "60%",
     height: "45px",
     marginBottom: "15px",
