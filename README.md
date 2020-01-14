@@ -6,7 +6,6 @@
 * [2. Resumo do projeto](#2-resumo-do-projeto)
 * [3. Critérios de aceitação mínimos do projeto](#3-critérios-de-aceitação-mínimos-do-projeto)
 * [4. Funcionamento da Aplicação](#4-funcionamento-da-aplicação)
-* [7. Considerações Finais](#7-considerações-finais)
 
 ***
 
@@ -16,6 +15,8 @@ Projeto apresentado ao bootcamp da Laboratória, turma SAP-003.
 ## 2. Resumo do projeto
  O projeto consiste em uma aplicação para uma Hamburgueria/Restaurante para receber os pedidos, enviá-los para cozinha, marcar como prontos e como entregues.
 
+A aplicação foi pensada específicamente para rodar em tablets (modo retrato ou paisagem),mas tem configurações para desktop.
+O aplicativo é um Single Page App.
 
  Para o desenvolvimento da aplicação, foram usadas seguintes tecnologias e ferramentas:
 
@@ -23,6 +24,7 @@ Projeto apresentado ao bootcamp da Laboratória, turma SAP-003.
   * Firebase 
   * Framework [Aphrodite](https://github.com/Khan/aphrodite)
   * Biblioteca [growl-alert](https://github.com/vfreitas-/growl-alert)
+  * [Trello](https://trello.com/)
 
 
 
@@ -109,5 +111,3 @@ Após selecionar o botão "Pronto", o pedido vai para o hitórico lateral onde t
 
 
 
-
-## 7. Considerações Finais
