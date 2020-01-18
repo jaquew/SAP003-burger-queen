@@ -6,12 +6,13 @@ import 'growl-alert/dist/growl-alert.css'
 import Button from '../Button';
 import Options from '../Options'
 
-const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen}) => {
-  const [active, setActive] = useState({b: true})
+const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen, table, setTable, doneOrders, activeMenu, setActiveMenu}) => {
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
   const [menu, setMenu] = useState([])
-  
+  const[mesaVaga, setMesaVaga] = useState([])
+  const [mesaOcupada, setMesaOcupada] = useState([])  
+
   useEffect(()=> {
     setMenu([...breakfast]);
   },[items])
@@ -20,6 +21,18 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
     setOpen({status :false})
   },[menu])
 
+  useEffect(()=>{
+    setMesaOcupada(doneOrders.map((order)=> order.table).sort((a,b) => a-b))    
+    console.log(mesaOcupada);
+  },[doneOrders])
+  
+  useEffect(()=> {
+    if (mesaOcupada.length) {
+      setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()).filter((item)=>(mesaOcupada.indexOf(item)==-1)))
+      console.log(`mesa vaga: ${mesaVaga}`);
+    }
+  },[mesaOcupada])
+  
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -28,8 +41,8 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
 
   const addOption = (item) =>{
     if (hboption) {
-      const orderPrice = hbextra !== 'Nenhum' ? item.price + 1 : item.price
-      const itemName = hbextra==='Nenhum' ? `${item.name} de ${hboption}` : `${item.name} de ${hboption} com ${hbextra}`
+      const orderPrice = hbextra === 'Nenhum' || hbextra === '' ? item.price : item.price + 1
+      const itemName = hbextra ==='Nenhum' || hbextra === ''? `${item.name} de ${hboption}` : `${item.name} de ${hboption} com ${hbextra}`
       const updateItem = {...item, name: itemName, price: orderPrice}
       addOrder(updateItem)
     } else {
@@ -40,9 +53,9 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   return (
     <section className={css(styles.menubox)}>
       <h2 className={css(styles.boxTitle)}>Menu</h2>
-        <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Menu Completo" handleclick ={() => {setMenu([...items]); setActive({a:true, b:false, c:false})}}/>
-        <Button className={active.b? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActive({a:false, b:true, c:false})}} />
-        <Button className={active.c? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActive({a:false, b:false, c:true})} } />
+        <Button className={activeMenu.a? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)}  title="Mesas" handleclick ={() => {setActiveMenu({a:true, b:false, c:false})}}/>
+        <Button className={activeMenu.b? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActiveMenu({a:false, b:true, c:false})}} />
+        <Button className={activeMenu.c? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActiveMenu({a:false, b:false, c:true})} } />
       <div className={css(styles.btnBox)}>
 
         {open.status &&
@@ -52,7 +65,25 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
             <Button className={css(styles.opbtn)} title="Adicionar" handleclick={() => addOption(open.menuItem)}/>
           </div>
         }
-      {menu.map((item)=> ( 
+        {activeMenu.a ? 
+        <div className={css(styles.tableBox)}>
+        <p>Mesas disponíveis</p>
+          <div className={css(styles.tables)}>
+        {mesaVaga.map((item)=>(
+          <Button className={table === item ? css(styles.tablebtn, styles.chosenTable) :  css(styles.tablebtn)} title={item} id={item} handleclick={() => {setTable(item); setActiveMenu({a:false, b:true, c:false})}} />
+        ))}
+          </div>
+        <p>Mesas Ocupadas</p>
+          <div className={css(styles.tables)}>
+            {mesaOcupada.map((item)=>(
+              <Button className={css(styles.tablebtn, styles.takenTable)} title={item} id={item} handleclick={() => {console.log('oi')}} />
+            ))}
+          </div>
+
+        </div>
+        :
+        <>
+        {menu.map((item)=> ( 
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
             <Button className={css(styles.menubtn)} type="submit" title={item.name} price={item.price} id={item.id} handleclick={() => setOpen({status:true, menuItem: item})} />
@@ -61,12 +92,33 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
           }
       </div>  
       ))}
+      </>
+      }
     </div>
     </section>
   )
 }
 
 const styles = StyleSheet.create({
+  tablebtn:{
+    backgroundColor: "Transparent",
+    fontFamily: "Arial",
+    fontSize: "1.2rem",
+    width: "70px",
+    height: "70px",
+    margin: "5px",
+    whiteSpace: "normal",
+    color: "#fff",
+    border: "3px solid #25B6D2",
+    borderRadius: "15px",
+  },
+  chosenTable:{
+    backgroundColor: "yellow",
+    color: "black"
+  },
+  takenTable:{
+    backgroundColor: "#25B6D2"
+  },
   menubox:{
     width: "65%",
     margin: "5px",
@@ -128,6 +180,17 @@ const styles = StyleSheet.create({
     ':active': {
       backgroundColor: "#25B6D2",
     },
+  },
+  tableBox:{
+    width: "100%",
+    display: "flex",
+    flexFlow: "column wrap"
+  },
+  tables: {
+    border: "2px solid yellow",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-evenly"
   },
   opbtn: {
     backgroundColor: "Transparent",

@@ -9,7 +9,6 @@ function App() {
     <div>
       <header className={css(styles.header)}>
         <a href="/" className={css(styles.back)}>Voltar</a>
-        {/* <h2 className={css(styles.logo)}>Burguer Queen</h2> */}
         <img src="images/logo.png" alt="Logo"/>
         <a href="/" className={css(styles.logout)}>Sair</a>
 
@@ -50,7 +49,8 @@ const styles = StyleSheet.create({
     },
   },
   logout: {
-    visibility: "hidden"
+    display: "none",
+    visibility: "hidden",
 
   },
   logo: {
