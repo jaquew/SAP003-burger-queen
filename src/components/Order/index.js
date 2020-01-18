@@ -101,9 +101,8 @@ const styles = StyleSheet.create({
 	orderbox:{
 		width: "30%",
 		margin: "5px",
-		marginRight: "15px",
-		// fontSize: "90%",
-		'@media (max-width: 850px)': {
+    marginRight: "15px",
+    '@media (max-width: 850px)': {
       width: "40%",
 
     },
