@@ -11,15 +11,18 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
   const [menu, setMenu] = useState([])
+  const[mesaVaga, setMesaVaga] = useState([])
+  const [mesaOcupada, setMesaOcupada] = useState([])  
 
-  const tableSet = Array.from(new Array(30),(val,index)=>(index+1).toString());
-  const mesaOcupada = []
-  doneOrders.forEach((order)=> mesaOcupada.push(order.table.toString()))
+  // const mesaOcupada = doneOrders.forEach((order)=> mesaOcupada.push(order.table.toString()))
+  // // setMesaOcupada([...mesaOcupada])    
+  // console.log(mesaOcupada);
   
-  const mesaVaga = tableSet.filter((item)=>(mesaOcupada.indexOf(item)==-1))
-  console.log(`mesa vaga: ${mesaVaga}`);
-  
-  
+  // if (mesaOcupada.length) {
+  //   setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()).filter((item)=>(mesaOcupada.indexOf(item)==-1)))
+  //   console.log(`mesa vaga: ${mesaVaga}`);
+  // }
+
   useEffect(()=> {
     setMenu([...breakfast]);
   },[items])
@@ -28,6 +31,20 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
     setOpen({status :false})
   },[menu])
 
+  useEffect(()=>{
+    doneOrders.forEach((order)=> mesaOcupada.push(order.table.toString()))
+    setMesaOcupada([...mesaOcupada])    
+    console.log(mesaOcupada);
+  },[doneOrders])
+  
+  useEffect(()=> {
+    if (mesaOcupada.length) {
+      setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()).filter((item)=>(mesaOcupada.indexOf(item)==-1)))
+      console.log(`mesa vaga: ${mesaVaga}`);
+    }
+
+  },[mesaOcupada])
+  
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -48,7 +65,7 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   return (
     <section className={css(styles.menubox)}>
       <h2 className={css(styles.boxTitle)}>Menu</h2>
-        <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Mesas" handleclick ={() => {setMenu([...items]); setActive({a:true, b:false, c:false})}}/>
+        <Button className={active.a? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Mesas" handleclick ={() => {setActive({a:true, b:false, c:false})}}/>
         <Button className={active.b? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActive({a:false, b:true, c:false})}} />
         <Button className={active.c? css(styles.menuTab, styles.activeTab) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActive({a:false, b:false, c:true})} } />
       <div className={css(styles.btnBox)}>
@@ -61,16 +78,22 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
           </div>
         }
         {active.a ? 
-        <>
-        {doneOrders.map((item)=>(
-          <>
-          {/* {tableSet.filter((tableN)=> tableN!=item.table).map((order)=>(
-            <p>{order}</p>
-          ))} */}
-          <Button className={css(styles.tablebtn)} title={item.table} id={item.table} handleclick={() => setTable(item.table)} />
-          </>
+        <div className={css(styles.tableBox)}>
+        <p>Mesas disponíveis</p>
+        {mesaVaga.map((item)=>(
+          <div>
+          <Button className={table === item ? css(styles.tablebtn, styles.red) :  css(styles.tablebtn)} title={item} id={item} handleclick={() => {setTable(item); setActive({a:false, b:true, c:false})}} />
+          </div>
         ))}
-        </>
+        <p>Mesas Ocupadas</p>
+        {mesaOcupada.map((item)=>(
+          <div>
+          <Button className={css(styles.takenTable)} title={item} id={item} handleclick={() => {console.log('oi');
+          }} />
+          </div>
+        ))}
+
+        </div>
         :
         <>
         {menu.map((item)=> ( 
@@ -90,6 +113,12 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
 }
 
 const styles = StyleSheet.create({
+  red:{
+    backgroundColor: "red"
+  },
+  takenTable:{
+    backgroundColor: "blue"
+  },
   menubox:{
     width: "65%",
     margin: "5px",

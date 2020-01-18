@@ -67,7 +67,7 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable})
 			<form className={css(styles.clientData)}>
 				<p>Mesa {table}</p>
 				<Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
-				<Input type="number" value={table} place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/>
+				{/* <Input type="number" value={table} place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/> */}
 			</form>
 
 			{orders.map((order) =>(
