@@ -9,7 +9,7 @@ import fire from '../../utils/firebaseUtils'
 import Button from '../Button'
 
 
-const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable}) => {
+const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable, setActiveMenu}) => {
 	const [clientName, setName] = useState('')
 
 	const deleteItem = (item) => {
@@ -50,6 +50,7 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable})
 			setName('');
 			setTable(0);
 			growl.success({text: 'Pedido Enviado', fadeAway: true, fadeAwayTimeout: 2500});
+			setActiveMenu({a:true, b:false, c:false})
 
 		} else if (!orders.length) {
 			growl.warning({text:'Coloque pelo menos 1 item no pedido!', fadeAway: true, fadeAwayTimeout: 2500})
