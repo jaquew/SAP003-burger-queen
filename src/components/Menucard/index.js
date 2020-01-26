@@ -5,8 +5,9 @@ import 'growl-alert/dist/growl-alert.css'
 
 import Button from '../Button';
 import Options from '../Options'
+import Input from '../Input'
 
-const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen, table, setTable, doneOrders, activeMenu, setActiveMenu}) => {
+const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen, table, setTable, doneOrders, activeMenu, setActiveMenu, clientName, setName}) => {
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
   const [menu, setMenu] = useState([])
@@ -67,6 +68,9 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
         }
         {activeMenu.a ? 
         <div className={css(styles.tableBox)}>
+          <form className={css(styles.clientData)}>
+            <Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
+          </form>
         <p>Mesas disponíveis</p>
           <div className={css(styles.tables)}>
         {mesaVaga.map((item)=>(

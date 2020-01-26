@@ -9,8 +9,7 @@ import fire from '../../utils/firebaseUtils'
 import Button from '../Button'
 
 
-const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable, setActiveMenu}) => {
-	const [clientName, setName] = useState('')
+const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable, setActiveMenu, clientName,setName}) => {
 
 	const deleteItem = (item) => {
 	const index = (orders.indexOf(item));
@@ -64,12 +63,11 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable, 
 	return(	
 	<section className={css(styles.orderbox)}>
 			<h3 className={css(styles.boxTitle)}>Pedido de {clientName}</h3>
+			<h4>Mesa {table}</h4>
 
-			<form className={css(styles.clientData)}>
-				<p>Mesa {table}</p>
+			{/* <form className={css(styles.clientData)}>
 				<Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
-				{/* <Input type="number" value={table} place="Numero da mesa" onchange={(e) => setTable(e.currentTarget.value)}/> */}
-			</form>
+			</form> */}
 
 			{orders.map((order) =>(
 			<div key={order.id} className={css(styles.placeorder)}>
