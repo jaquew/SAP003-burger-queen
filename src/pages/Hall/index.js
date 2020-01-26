@@ -15,6 +15,7 @@ const Hall = () => {
   const [open, setOpen] = useState({status: false})
   const [doneOrders, setDoneOrders] = useState([])
   const [table, setTable] = useState(0)
+  const [clientName, setName] = useState('')
   const [active, setActive] = useState(true)
   const [activeMenu, setActiveMenu] = useState({a: true})
   
@@ -71,8 +72,8 @@ const Hall = () => {
     </div>    
 
       {active ? <section className={css(styles.halllayout)}>
-        <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} hbextra={hbextra} table={table} setTable={setTable} doneOrders={doneOrders} activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
-        <Order orders={orders} total={total} plusItem={plusItem} setTotal={setTotal} setOrders={setOrders} hboption={hboption} hbextra={hbextra} table={table} setTable={setTable} setActiveMenu={setActiveMenu} />
+        <Menucard addOrder={addOrder} items={items} setOption={setOption} hboption={hboption} open={open} setOpen={setOpen} setExtra={setExtra} hbextra={hbextra} table={table} setTable={setTable} doneOrders={doneOrders} activeMenu={activeMenu} setActiveMenu={setActiveMenu} clientName={clientName} setName={setName}/>
+        <Order orders={orders} total={total} plusItem={plusItem} setTotal={setTotal} setOrders={setOrders} hboption={hboption} hbextra={hbextra} table={table} setTable={setTable} setActiveMenu={setActiveMenu} clientName={clientName} setName={setName} />
       </section>
       : <DoneOrders doneOrders={doneOrders} setDoneOrders={setDoneOrders} />}
   </section>
