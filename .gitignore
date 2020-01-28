@@ -23,3 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 firebase-debug.log
 src/utils/firebaseUtils.js
+.firebase/hosting.YnVpbGQ.cache

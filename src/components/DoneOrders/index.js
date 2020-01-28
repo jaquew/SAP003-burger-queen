@@ -32,7 +32,7 @@ const DoneOrders = ({doneOrders}) => {
 			{ordersShow.map( (done) => (
         <div key={done.id} className={css(styles.orderCard)}>
           <OrderCard order={done}/>
-          <Button className={css(styles.orderBtn)} title='Entregue' handleclick={() => deliverOrder(done)} />
+          <Button className={css(styles.orderBtn)} handleclick={() => deliverOrder(done)}>Entregue</Button>
         </div> 
       ))}
     </section>

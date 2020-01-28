@@ -49,15 +49,13 @@ const styles = StyleSheet.create({
     },
   },
   logout: {
-    display: "none",
+    width: "10%",
     visibility: "hidden",
-
   },
   logo: {
     width: "60%",
     textAlign: "center"
   },
-
   main: {
     display: "flex",
     justifyContent: "space-evenly",

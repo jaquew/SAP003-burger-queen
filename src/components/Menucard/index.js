@@ -31,6 +31,8 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
     if (mesaOcupada.length) {
       setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()).filter((item)=>(mesaOcupada.indexOf(item)==-1)))
       console.log(`mesa vaga: ${mesaVaga}`);
+    } else {
+      setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()))
     }
   },[mesaOcupada])
   
@@ -54,16 +56,16 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   return (
     <section className={css(styles.menubox)}>
       <h2 className={css(styles.boxTitle)}>Menu</h2>
-        <Button className={activeMenu.a? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)}  title="Mesas" handleclick ={() => {setActiveMenu({a:true, b:false, c:false})}}/>
-        <Button className={activeMenu.b? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)}  title="Café da Manhã" handleclick ={() => {setMenu([...breakfast]); setActiveMenu({a:false, b:true, c:false})}} />
-        <Button className={activeMenu.c? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)}  title="Almoço e Jantar" handleclick ={() => {setMenu([...allday]); setActiveMenu({a:false, b:false, c:true})} } />
+        <Button className={activeMenu.a? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)} handleclick ={() => {setActiveMenu({a:true, b:false, c:false})}}>Mesas</Button>
+        <Button className={activeMenu.b? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)} handleclick ={() => {setMenu([...breakfast]); setActiveMenu({a:false, b:true, c:false})}}>Café da Manhã</Button>
+        <Button className={activeMenu.c? css(styles.menuTab, styles.activeMenu) : css(styles.menuTab)} handleclick ={() => {setMenu([...allday]); setActiveMenu({a:false, b:false, c:true})} }>Almoço e Jantar</Button>
       <div className={css(styles.btnBox)}>
 
         {open.status &&
           <div className={css(styles.aditional)}>                        
             <Options array={open.menuItem.options} name='Opções' item={open.menuItem} handleChange={handleChange}/>
             <Options array={open.menuItem.extra} name='Extra' item={open.menuItem} handleChange={handleChange}/>
-            <Button className={css(styles.opbtn)} title="Adicionar" handleclick={() => addOption(open.menuItem)}/>
+            <Button className={css(styles.opbtn)}  handleclick={() => addOption(open.menuItem)}>Adicionar</Button>
           </div>
         }
         {activeMenu.a ? 
@@ -74,13 +76,13 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
         <p>Mesas disponíveis</p>
           <div className={css(styles.tables)}>
         {mesaVaga.map((item)=>(
-          <Button className={table === item ? css(styles.tablebtn, styles.chosenTable) :  css(styles.tablebtn)} title={item} id={item} handleclick={() => {setTable(item); setActiveMenu({a:false, b:true, c:false})}} />
+          <Button className={table === item ? css(styles.tablebtn, styles.chosenTable) :  css(styles.tablebtn)} id={item} handleclick={() => {setTable(item); setActiveMenu({a:false, b:true, c:false})}}>{item}</Button>
         ))}
           </div>
         <p>Mesas Ocupadas</p>
           <div className={css(styles.tables)}>
             {mesaOcupada.map((item)=>(
-              <Button className={css(styles.tablebtn, styles.takenTable)} title={item} id={item} handleclick={() => {console.log('oi')}} />
+              <Button className={css(styles.tablebtn, styles.takenTable)} id={item} handleclick={() => {console.log('oi')}}>{item}</Button>
             ))}
           </div>
 
@@ -90,9 +92,9 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
         {menu.map((item)=> ( 
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
-            <Button className={css(styles.menubtn)} type="submit" title={item.name} price={item.price} id={item.id} handleclick={() => setOpen({status:true, menuItem: item})} />
+            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => setOpen({status:true, menuItem: item})}>{item.name}<br/>R$ {item.price},00</Button>
           :
-            <Button className={css(styles.menubtn)} type="submit" title={item.name} price={item.price} id={item.id} handleclick={() => addOrder(item)} />
+            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => addOrder(item)}>{item.name}<br/>R$ {item.price},00</Button>
           }
       </div>  
       ))}
@@ -191,7 +193,6 @@ const styles = StyleSheet.create({
     flexFlow: "column wrap"
   },
   tables: {
-    border: "2px solid yellow",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-evenly"

@@ -28,7 +28,7 @@ const HistoryCard = ({order}) => {
         </div>
       ))}
 
-      <Button handleclick={showMore} title="Ver mais"/>
+      <Button className={css(styles.historyBtn)} handleclick={showMore}>Ver mais</Button>
     </div>
 	)
 }
@@ -80,7 +80,7 @@ itemUl:{
 itemN: {
 	listStyle: "none"
 },
-orderBtn:{
+historyBtn:{
 	backgroundColor: "Transparent",
 	width: "50%",
 	height: "45px",
@@ -89,7 +89,7 @@ orderBtn:{
 	color: "#fff",
 	border: "2px solid #25B6D2",
 	borderRadius: "15px",
-	':focus': {
+	':active': {
 		backgroundColor: "#25B6D2",
 	},    
 },

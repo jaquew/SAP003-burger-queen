@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import growl from 'growl-alert'
 import 'growl-alert/dist/growl-alert.css'
 import { StyleSheet, css } from 'aphrodite';
@@ -64,11 +64,6 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable, 
 	<section className={css(styles.orderbox)}>
 			<h3 className={css(styles.boxTitle)}>Pedido de {clientName}</h3>
 			<h4>Mesa {table}</h4>
-
-			{/* <form className={css(styles.clientData)}>
-				<Input type="text" value={clientName} place="Nome do cliente" onchange={(e) => setName(e.currentTarget.value)}/>
-			</form> */}
-
 			{orders.map((order) =>(
 			<div key={order.id} className={css(styles.placeorder)}>
 				<div className={css(styles.ordername)}>
@@ -87,13 +82,11 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable, 
 					<Input className={css(styles.updatebtn)} type="image" src="images/remove.png" handleclick={() => deleteItem(order)} />
 				</div>
 			</div>
-					
 		))}
 		<p className={css(styles.total)}>Total: R${total},00</p>
-		<Button className={css(styles.sendbtn)} title="Enviar para Cozinha" handleclick={() => sendOrder(orders)}/>
+		<Button className={css(styles.sendbtn)} handleclick={() => sendOrder(orders)}>Enviar para Cozinha</Button>
 	</section>
 	)
-
 }
 
 const styles = StyleSheet.create({
@@ -120,9 +113,10 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	updatebtn: {
-		height: "30px",
-		width: "30px",
+		height: "25px",
+		width: "25px",
 		padding: "5px",
+		margin: "0 10px"
 	},
 	placeorder:{
 		display: "flex",

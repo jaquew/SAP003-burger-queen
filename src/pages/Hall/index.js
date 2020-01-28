@@ -37,7 +37,6 @@ const Hall = () => {
     item.count++
     setOrders([...orders])
     setTotal(total + (item.price));
-    
   } 
   
   useEffect(() => {
@@ -49,11 +48,8 @@ const Hall = () => {
       }))
       setItems(newItems)
     })
-  },[])
-  
 
-	useEffect(() => {
-		fire.collection('Pedidos')
+    fire.collection('Pedidos')
     .orderBy('time', 'asc')
     .onSnapshot((snap) => {
       const orders = snap.docs.map((doc) => ({

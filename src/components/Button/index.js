@@ -6,10 +6,7 @@ const Button = (props) => {
     onClick={props.handleclick} 
     className={props.className} 
      id={props.id}>
-    {props.title} 
-    {props.img && <img src={props.img} alt={props.title}/>}
-    <br />
-    {props.price && `R$ ${props.price},00`}
+     {props.children}
   </button>
   )
 }

@@ -45,7 +45,7 @@ function Kitchen(){
           {!order.ready &&
             <div className={css(styles.orderCard)}>
               <OrderCard order={order}/>
-              <Button className={css(styles.orderBtn)} title={order.status} img="images/correct.png" handleclick={() => orderReady(order)} />
+              <Button className={css(styles.orderBtn)} handleclick={() => orderReady(order)}>{order.status}<img src="images/correct.png" alt={order.status}/></Button>
             </div>
           }
           </>
