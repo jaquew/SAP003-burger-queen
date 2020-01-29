@@ -92,9 +92,9 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
         {menu.map((item)=> ( 
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
-            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => setOpen({status:true, menuItem: item})}>{item.name}<br/>R$ {item.price},00</Button>
+            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => setOpen({status:true, menuItem: item})}><img src={"images/"+ item.name + ".png"} alt={item.name}/><span>{item.name}<br/>R$ {item.price},00</span></Button>
           :
-            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => addOrder(item)}>{item.name}<br/>R$ {item.price},00</Button>
+            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => addOrder(item)}><img src={"images/"+ item.name + ".png"} alt={item.name}/><span>{item.name}<br/>R$ {item.price},00</span></Button>
           }
       </div>  
       ))}
@@ -180,6 +180,9 @@ const styles = StyleSheet.create({
     height: "80px",
     marginBottom: "15px",
     whiteSpace: "normal",
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
     color: "#fff",
     border: "3px solid #25B6D2",
     borderRadius: "15px",
