@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { StyleSheet, css } from 'aphrodite';
 import growl from 'growl-alert'
 import 'growl-alert/dist/growl-alert.css'
+import fire from '../../utils/firebaseUtils'
 
 import Button from '../Button';
 import Options from '../Options'
@@ -12,8 +13,8 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   const allday = items.filter(item => item.bf===false)
   const [menu, setMenu] = useState([])
   const[mesaVaga, setMesaVaga] = useState([])
-  const [mesaOcupada, setMesaOcupada] = useState([])  
-
+  const [mesaOcupada, setMesaOcupada] = useState([])
+  
   useEffect(()=> {
     setMenu([...breakfast]);
   },[items])
@@ -23,19 +24,21 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   },[menu])
 
   useEffect(()=>{
-    setMesaOcupada(doneOrders.map((order)=> order.table).sort((a,b) => a-b))    
+    fire.collection('Pedidos')
+    .orderBy('time', 'asc')
+    .onSnapshot((snap) => {
+      const orders = snap.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      const teste = orders.map((order)=> order.table).sort((a,b) => a-b)
+      setMesaOcupada(teste);
+      setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()).filter((item)=>(teste.indexOf(item)==-1)))
+    })
+    //setMesaOcupada(doneOrders.map((order)=> order.table).sort((a,b) => a-b))    
     console.log(mesaOcupada);
-  },[doneOrders])
   
-  useEffect(()=> {
-    if (mesaOcupada.length) {
-      setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()).filter((item)=>(mesaOcupada.indexOf(item)==-1)))
-      console.log(`mesa vaga: ${mesaVaga}`);
-    } else {
-      setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()))
-    }
-  },[mesaOcupada])
-  
+  },[])
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -92,9 +95,9 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
         {menu.map((item)=> ( 
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
-            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => setOpen({status:true, menuItem: item})}><img src={"images/"+ item.name + ".png"} alt={item.name}/><span>{item.name}<br/>R$ {item.price},00</span></Button>
+            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => setOpen({status:true, menuItem: item})}><img src={"images/"+ item.name + ".png"} alt={item.name}/>{item.name}<br/>R$ {item.price},00</Button>
           :
-            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => addOrder(item)}><img src={"images/"+ item.name + ".png"} alt={item.name}/><span>{item.name}<br/>R$ {item.price},00</span></Button>
+            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => addOrder(item)}><img src={"images/"+ item.name + ".png"} alt={item.name}/>{item.name}<br/>R$ {item.price},00</Button>
           }
       </div>  
       ))}
