@@ -27,9 +27,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     margin: "0",
-    fontSize: "0.7em",
-    width: "35%"
+    fontSize: "0.9em",
+    width: "60%"
   },
+  label:{
+    padding: "8px"
+  }
 })
 
 export default Options

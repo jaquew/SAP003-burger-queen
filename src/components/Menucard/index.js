@@ -76,7 +76,7 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
         <p>Mesas disponíveis</p>
           <div className={css(styles.tables)}>
         {mesaVaga.map((item)=>(
-          <Button className={table === item ? css(styles.tablebtn, styles.chosenTable) :  css(styles.tablebtn)} id={item} handleclick={() => {setTable(item); setActiveMenu({a:false, b:true, c:false})}}>{item}</Button>
+          <Button className={table === item ? css(styles.tablebtn, styles.chosenTable) :  css(styles.tablebtn)} id={item} key={item} handleclick={() => {setTable(item); setActiveMenu({a:false, b:true, c:false})}}>{item}</Button>
         ))}
           </div>
         <p>Mesas Ocupadas</p>
@@ -92,9 +92,9 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
         {menu.map((item)=> ( 
         <div key={item.id} className={css(styles.btnlayout)}>
           {item.options ? 
-            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => setOpen({status:true, menuItem: item})}><img src={"images/"+ item.name + ".png"} alt={item.name}/><span>{item.name}<br/>R$ {item.price},00</span></Button>
+            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => setOpen({status:true, menuItem: item})}><img className={css(styles.btnimg)} src={"images/"+ item.name + ".png"} alt={item.name}/><span className={css(styles.btntitle)}>{item.name}<br/>R$ {item.price},00</span></Button>
           :
-            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => addOrder(item)}><img src={"images/"+ item.name + ".png"} alt={item.name}/><span>{item.name}<br/>R$ {item.price},00</span></Button>
+            <Button className={css(styles.menubtn)} type="submit" id={item.id} handleclick={() => addOrder(item)}><img className={css(styles.btnimg)} src={"images/"+ item.name + ".png"} alt={item.name}/><span className={css(styles.btntitle)}>{item.name}<br/>R$ {item.price},00</span></Button>
           }
       </div>  
       ))}
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     marginBottom: "15px",
     whiteSpace: "normal",
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
     color: "#fff",
     border: "3px solid #25B6D2",
@@ -189,6 +189,13 @@ const styles = StyleSheet.create({
     ':active': {
       backgroundColor: "#25B6D2",
     },
+  },
+  btnimg:{
+    marginLeft: "3%"
+  },
+  btntitle:{
+    width: "60%",
+    marginRight: "3%"
   },
   tableBox:{
     width: "100%",
