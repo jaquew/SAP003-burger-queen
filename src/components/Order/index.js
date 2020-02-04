@@ -5,7 +5,7 @@ import { StyleSheet, css } from 'aphrodite';
 import firebase from 'firebase';
 
 import Input from '../Input'
-import fire from '../../utils/firebaseUtils'
+import Firebase from '../../utils/firebaseUtils'
 import Button from '../Button'
 
 
@@ -43,7 +43,7 @@ const Order = ({ orders, total, plusItem, setTotal, setOrders, table, setTable, 
 				ready: false,
 				status: "Pronto",
 			}
-			fire.collection('Pedidos').add(clientOrder)
+			Firebase.fire.collection('Pedidos').add(clientOrder)
 			setOrders([]);
 			setTotal(0)
 			setName('');

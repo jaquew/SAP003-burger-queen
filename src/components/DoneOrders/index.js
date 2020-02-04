@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import { StyleSheet, css } from 'aphrodite';
-import fire from '../../utils/firebaseUtils'
+import firebase from '../../utils/firebaseUtils'
 import Button from '../../components/Button'
 import OrderCard from '../../components/OrderCard'
 import HistoryCard from '../../components/HistoryCard'
@@ -9,17 +9,11 @@ const DoneOrders = ({doneOrders}) => {
   const ordersShow = doneOrders.filter(order => order.delivered===false)
   const orderHistory = doneOrders.filter(order => order.delivered===true).sort((a,b) => a.time > b.time ? -1 : 1)
 
-  useEffect(() => {
-    console.log("rodou aqui");
-    
-  },[doneOrders])  
-
-
   const deliverOrder = (done) => {
     const endTime = new Date()      
     const readyTime = Math.floor((endTime - done.time.toDate())/60000)
     
-    fire.collection('Pedidos').doc(done.id).update({
+    firebase.fire.collection('Pedidos').doc(done.id).update({
       delivered: true,
       readyTime
     })

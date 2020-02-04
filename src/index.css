@@ -1,6 +1,7 @@
 body {
   margin: 0;
   color: white;
+  height: 100vh;
   box-sizing: border-box;
   background-color: #333333;
   outline: none;
@@ -9,6 +10,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+#root{
+  height: 100vh;
 }
 button::-moz-focus-inner {
   border: 0;

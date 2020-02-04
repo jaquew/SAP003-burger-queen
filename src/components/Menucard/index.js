@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react'
 import { StyleSheet, css } from 'aphrodite';
 import growl from 'growl-alert'
 import 'growl-alert/dist/growl-alert.css'
-import fire from '../../utils/firebaseUtils'
+import firebase from '../../utils/firebaseUtils'
 
 import Button from '../Button';
 import Options from '../Options'
 import Input from '../Input'
 
-const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen, table, setTable, doneOrders, activeMenu, setActiveMenu, clientName, setName}) => {
+const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open, setOpen, table, setTable, activeMenu, setActiveMenu, clientName, setName}) => {
   const breakfast = items.filter(item => item.bf===true)
   const allday = items.filter(item => item.bf===false)
   const [menu, setMenu] = useState([])
@@ -24,20 +24,17 @@ const Menucard = ({addOrder, items, hboption, setOption, hbextra, setExtra, open
   },[menu])
 
   useEffect(()=>{
-    fire.collection('Pedidos')
+    firebase.fire.collection('Pedidos')
     .orderBy('time', 'asc')
     .onSnapshot((snap) => {
       const orders = snap.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
       }))
-      const teste = orders.map((order)=> order.table).sort((a,b) => a-b)
-      setMesaOcupada(teste);
-      setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()).filter((item)=>(teste.indexOf(item)==-1)))
-    })
-    //setMesaOcupada(doneOrders.map((order)=> order.table).sort((a,b) => a-b))    
-    console.log(mesaOcupada);
-  
+      const mesa = orders.map((order)=> order.table).sort((a,b) => a-b)
+      setMesaOcupada(mesa);
+      setMesaVaga(Array.from(new Array(30),(val,index)=>(index+1).toString()).filter((item)=>(mesa.indexOf(item)===-1)))
+    })  
   },[])
 
   const handleChange = (e) => {
@@ -149,10 +146,9 @@ const styles = StyleSheet.create({
       outline: "0",
     },
   },
-  activeTab:{
+  activeMenu:{
     borderBottom: "3px solid #25B6D2",
     color: "#FFEE62",
-
   },
   boxTitle:{
     width: "90%",

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import fire from '../../utils/firebaseUtils'
+import firebase from '../../utils/firebaseUtils'
 import Button from '../../components/Button'
 import OrderCard from '../../components/OrderCard'
 import HistoryCard from '../../components/HistoryCard'
@@ -10,7 +10,7 @@ function Kitchen(){
   const orderDone = orders.filter(el => el.ready).sort((a,b) => a.time > b.time ? -1 : 1)
 
   useEffect(() => {
-    fire.collection('Pedidos')
+    firebase.fire.collection('Pedidos')
     .orderBy('time', 'asc')
     .onSnapshot((snap) => {
       const newOrder = snap.docs.map((doc) => ({
@@ -28,7 +28,7 @@ function Kitchen(){
       const kitchenTime = Math.floor((endTime - order.time.toDate())/60000)      
       
       const updateOrder = {ready: true, delivered: false, kitchenTime}
-      fire.collection('Pedidos').doc(order.id).update(updateOrder)
+      firebase.fire.collection('Pedidos').doc(order.id).update(updateOrder)
     
     } else {
       order.status = "Confirmar"

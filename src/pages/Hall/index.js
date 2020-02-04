@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-import fire from '../../utils/firebaseUtils'
+import firebase from '../../utils/firebaseUtils'
 import Order from '../../components/Order'
 import Menucard from '../../components/Menucard'
 import DoneOrders from '../../components/DoneOrders'
@@ -40,7 +40,7 @@ const Hall = () => {
   } 
   
   useEffect(() => {
-    fire.collection('Menu').get()
+    firebase.fire.collection('Menu').get()
     .then((snap) => {
       const newItems = snap.docs.map((doc) => ({
         id: doc.id,
@@ -49,7 +49,7 @@ const Hall = () => {
       setItems(newItems)
     })
 
-    fire.collection('Pedidos')
+    firebase.fire.collection('Pedidos')
     .orderBy('time', 'asc')
     .onSnapshot((snap) => {
       const orders = snap.docs.map((doc) => ({
